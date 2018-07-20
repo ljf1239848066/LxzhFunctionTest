@@ -1,7 +1,9 @@
 package com.lxzh123.sendemail;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import com.lxzh123.util.mail.MultiMailsender;
 import com.lxzh123.util.mail.MultiMailsender.MultiMailSenderInfo;
 
 public class SendMailActivity extends Activity {
+    private final static String TAG="SendMailActivity";
     private EditText etUserName,etPassword,etSendAddr,etToAddr;
 	private EditText etTitle, etContent;
 	private Button btnSend;
@@ -42,6 +45,8 @@ public class SendMailActivity extends Activity {
                 String toaddr = etToAddr.getText().toString();
 				if (title.length() > 0 && content.length() > 0) {
                     sendThread=new SendEmailThread(title,content,username,password,sendaddr,toaddr);
+                    sendThread.setToAddrs(new String[]{toaddr});
+                    sendThread.setCcAddrs(new String[]{"1239848066@qqcom"});
                     sendThread.start();
 				} else if (title.length() <= 0) {
 					Toast.makeText(getBaseContext(), "请输入邮件标题",
@@ -57,10 +62,13 @@ public class SendMailActivity extends Activity {
 	private class SendEmailThread extends Thread{
 	    private String title;
 	    private String content;
-        String username;
-        String password;
-        String sendaddr;
-        String toaddr;
+        private String username;
+        private String password;
+        private String sendaddr;
+        private String toaddr;
+        private String[] toAddrs;
+        private String[] ccAddrs;
+        private String[] bccAddrs;
 
         public SendEmailThread(String title, String content, String username, String password, String sendaddr, String toaddr) {
             this.title = title;
@@ -71,9 +79,19 @@ public class SendMailActivity extends Activity {
             this.toaddr = toaddr;
         }
 
-        @Override
-        public void run() {
-            super.run();
+        public void setToAddrs(String[] toAddrs) {
+            this.toAddrs = toAddrs;
+        }
+
+        public void setCcAddrs(String[] ccAddrs) {
+            this.ccAddrs = ccAddrs;
+        }
+
+        public void setBccAddrs(String[] bccAddrs) {
+            this.bccAddrs = bccAddrs;
+        }
+
+        private boolean sendByThirdPartyEmail(){
             // 这个类主要是设置邮件
             MultiMailSenderInfo mailInfo = new MultiMailSenderInfo();
             mailInfo.setMailServerHost("smtp.163.com");
@@ -85,16 +103,48 @@ public class SendMailActivity extends Activity {
             mailInfo.setToAddress(toaddr);
             mailInfo.setSubject(title);
             mailInfo.setContent(content);
-            String[] receivers = new String[] { "1239848066@qq.com",
-                    "1440924340@qq.com" };
+            String[] receivers = new String[] { "1239848066@qq.com"};
             String[] ccs = receivers;
             mailInfo.setReceivers(receivers);
             mailInfo.setCcs(ccs);
             // 这个类主要来发送邮件
             MultiMailsender sms = new MultiMailsender();
-            sms.sendTextMail(mailInfo);// 发送文体格式
+            boolean rst=sms.sendTextMail(mailInfo);// 发送文体格式
             // MultiMailsender.sendHtmlMail(mailInfo);//发送html格式
             MultiMailsender.sendMailtoMultiCC(mailInfo);//
+            return rst;
+        }
+
+        private boolean sendBySysEmail(){
+            Intent intent=new Intent(Intent.ACTION_SEND);
+            if(toAddrs==null||toAddrs.length<1){
+                Log.e(TAG,"send email must set to address first!");
+                return false;
+            }else{
+                intent.putExtra(Intent.EXTRA_EMAIL,toAddrs);
+            }
+
+            if(ccAddrs!=null&&ccAddrs.length>0){
+                intent.putExtra(Intent.EXTRA_CC,ccAddrs);
+            }
+            if(bccAddrs!=null&&bccAddrs.length>0){
+                intent.putExtra(Intent.EXTRA_BCC,bccAddrs);
+            }
+
+            intent.putExtra(Intent.EXTRA_SUBJECT,title);
+            intent.putExtra(Intent.EXTRA_TEXT,content);
+            startActivity(intent);
+            return true;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            boolean rst=sendByThirdPartyEmail();
+            sendBySysEmail();
+            if(rst){
+                Toast.makeText(getApplicationContext(),"发送成功", Toast.LENGTH_LONG).show();
+            }
         }
     };
 

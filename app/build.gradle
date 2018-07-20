@@ -10,7 +10,7 @@ dependencies {
     implementation files('libs/zxing.jar')
     implementation files('libs/log4j-1.2.16.jar')
     implementation files('libs/org.apache.http.legacy.jar')
-    implementation "com.squareup.okhttp3:okhttp:3.10.0"
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.android.support:appcompat-v7:24.2.1'
 }
 
