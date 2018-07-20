@@ -16,31 +16,11 @@ import java.security.cert.X509Certificate;
 public class SignCheck {
     private Context context;
     private String cer = null;
-    private String realCer = null;
     private static final String TAG = "SignCheck";
 
     public SignCheck(Context context) {
         this.context = context;
         this.cer = getCertificateSHA1Fingerprint();
-    }
-
-    public SignCheck(Context context, String realCer) {
-        this.context = context;
-        this.realCer = realCer;
-        this.cer = getCertificateSHA1Fingerprint();
-    }
-
-    public String getRealCer() {
-        return realCer;
-    }
-
-    /**
-     * 设置正确的签名
-     *
-     * @param realCer
-     */
-    public void setRealCer(String realCer) {
-        this.realCer = realCer;
     }
 
     /**
@@ -121,12 +101,12 @@ public class SignCheck {
      * 检测签名是否正确
      * @return true 签名正常 false 签名不正常
      */
-    public boolean check() {
+    public boolean check(String realCer) {
 
-        if (this.realCer != null) {
+        if (realCer != null) {
             cer = cer.trim();
             realCer = realCer.trim();
-            if (this.cer.equals(this.realCer)) {
+            if (this.cer.equals(realCer)) {
                 return true;
             }
         }else {
