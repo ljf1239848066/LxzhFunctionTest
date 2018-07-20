@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/content"
+        android:gravity="left|top"
+        android:maxLines="10" />
+
+    <RelativeLayout
+        android:id="@+id/buttonframe"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content">
+
+        <Button
+            android:id="@+id/create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:gravity="center_vertical"
+            android:text="@string/activity_quickmark_genbrcode"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/backalpha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:text="@string/activity_quickmark_transparent"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/button_bg"
+            android:gravity="center"
+            android:text="@string/activity_quickmark_save"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonframe"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
