@@ -12,22 +12,11 @@ public class AsyCrypto {
      * @param text 待加密的字符串
      * @return MD5加密后的字符串
      */
-    public static String string2MD5(String text){
+    public static String MD5Encrypt(String text){
         try {
             MessageDigest a = MessageDigest.getInstance("md5");
             byte[] b = a.digest(text.getBytes(Common.ENCODING));
-            // byte -128 ---- 127
-            StringBuffer c = new StringBuffer();
-            for (byte e : b) {
-                int d = e & 0xff;
-                String f = Integer.toHexString(d);
-
-                if (f.length() == 1) {
-                    f = 0 + f;
-                }
-                c.append(f);
-            }
-            return c.toString();
+            return Common.Byte2Hex(b);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -39,7 +28,7 @@ public class AsyCrypto {
      * @param in 待加密字节流
      * @return MD5加密后的字符串
      */
-    public static String string2MD5(InputStream in) {
+    public static String MD5Encrypt(InputStream in) {
         try {
             MessageDigest a = MessageDigest.getInstance("MD5");
             byte[] bb = new byte[8192];
@@ -49,21 +38,7 @@ public class AsyCrypto {
             }
             byte[] b = a.digest();
 
-            // byte -128 ---- 127
-            StringBuffer c = new StringBuffer();
-            for (byte e : b) {
-                int d = e & 0xff;
-
-                String f = Integer.toHexString(d);
-
-                if (f.length() == 1) {
-                    f = 0 + f;
-                }
-
-                c.append(f);
-            }
-
-            return c.toString();
+            return Common.Byte2Hex(b);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -82,7 +57,7 @@ public class AsyCrypto {
     /**
      * MD5加密 生成32位md5码
      */
-    public static String string2MD5_1(String inStr){
+    public static String MD5_1Encrypt(String inStr){
         MessageDigest md5 = null;
         try{
             md5 = MessageDigest.getInstance("MD5");
@@ -97,21 +72,14 @@ public class AsyCrypto {
         for (int i = 0; i < charArray.length; i++)
             byteArray[i] = (byte) charArray[i];
         byte[] md5Bytes = md5.digest(byteArray);
-        StringBuffer hexValue = new StringBuffer();
-        for (int i = 0; i < md5Bytes.length; i++){
-            int val = ((int) md5Bytes[i]) & 0xff;
-            if (val < 16)
-                hexValue.append("0");
-            hexValue.append(Integer.toHexString(val));
-        }
-        return hexValue.toString().toUpperCase();
+        return Common.Byte2Hex(md5Bytes).toUpperCase();
     }
     /**
      * SHA1加密
      * @param str
      * @return
      */
-    public static String string2Sha1(String str){
+    public static String SHA1Encrypt(String str){
         if(str==null||str.length()==0){
             return null;
         }
@@ -132,7 +100,6 @@ public class AsyCrypto {
             }
             return new String(buf);
         } catch (Exception e) {
-            // TODO: handle exception
             return null;
         }
     }
@@ -143,13 +110,13 @@ public class AsyCrypto {
      * @param str 加密后的报文
      * @return
      */
-    public static String String2SHA256(String str){
+    public static String SHA256Encrypt(String str){
         MessageDigest messageDigest;
         String encdeStr = "";
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] hash = messageDigest.digest(str.getBytes(Common.ENCODING));
-            encdeStr=byte2Hex(hash);
+            encdeStr=Common.Byte2Hex(hash);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -163,38 +130,19 @@ public class AsyCrypto {
      * @param str 加密后的报文
      * @return
      */
-    public static String String2SHA256StrJava(String str){
+    public static String SHA256EncryptByJava(String str){
         MessageDigest messageDigest;
         String encodeStr = "";
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(str.getBytes(Common.ENCODING));
-            encodeStr = byte2Hex(messageDigest.digest());
+            encodeStr = Common.Byte2Hex(messageDigest.digest());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return encodeStr;
-    }
-
-    /**
-     * 将byte转为16进制
-     * @param bytes
-     * @return
-     */
-    private static String byte2Hex(byte[] bytes){
-        StringBuffer stringBuffer = new StringBuffer();
-        String temp = null;
-        for (int i=0;i<bytes.length;i++){
-            temp = Integer.toHexString(bytes[i] & 0xFF);
-            if (temp.length()==1){
-                //1得到一位的进行补0操作
-                stringBuffer.append("0");
-            }
-            stringBuffer.append(temp);
-        }
-        return stringBuffer.toString();
     }
 }
 

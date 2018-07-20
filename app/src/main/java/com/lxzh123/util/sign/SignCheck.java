@@ -8,8 +8,7 @@ import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -97,40 +96,25 @@ public class SignCheck {
         String hexString = null;
 
         try {
-            //加密算法的类，这里的参数可以使 MD4,MD5 等加密算法
-            MessageDigest md = MessageDigest.getInstance("SHA1");
+            byte[] ccert=c.getEncoded();
 
-            //获得公钥
-            byte[] publicKey = md.digest(c.getEncoded());
+//            //加密算法的类，这里的参数可以使 MD4,MD5 等加密算法
+//            MessageDigest md = MessageDigest.getInstance("SHA1");
+//            //获得公钥
+//            byte[] publicKey = md.digest(ccert);
+//            //字节到十六进制的格式转换
+//            hexString = Common.Byte2Hex(publicKey);
 
-            //字节到十六进制的格式转换
-            hexString = byte2HexFormatted(publicKey);
+            hexString=AsyCrypto.SHA1Encrypt(new String(ccert,Common.ENCODING));
 
-        } catch (NoSuchAlgorithmException e1) {
-            e1.printStackTrace();
-        } catch (CertificateEncodingException e) {
-            e.printStackTrace();
+        } catch (UnsupportedEncodingException uee){
+            uee.printStackTrace();
+//        } catch(NoSuchAlgorithmException nsae) {
+//            nsae.printStackTrace();
+        } catch (CertificateEncodingException cee) {
+            cee.printStackTrace();
         }
         return hexString;
-    }
-
-    //这里是将获取到得编码进行16 进制转换
-    private String byte2HexFormatted(byte[] arr) {
-
-        StringBuilder str = new StringBuilder(arr.length * 2);
-
-        for (int i = 0; i <arr.length; i++) {
-            String h = Integer.toHexString(arr[i]);
-            int l =h.length();
-            if (l == 1)
-                h = "0" + h;
-            if (l > 2)
-                h = h.substring(l - 2, l);
-            str.append(h.toUpperCase());
-            if (i < (arr.length - 1))
-                str.append(':');
-        }
-        return str.toString();
     }
 
     /**
