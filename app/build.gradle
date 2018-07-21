@@ -1,5 +1,80 @@
 apply plugin: 'com.android.application'
 
+String[] getSigningProperties(boolean isDebug) {
+    File propFile = new File('signing.properties')
+    if (propFile.exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(propFile))
+        if (isDebug) {
+            def signP = new String[1];
+            signP[0] = props['DEBUG_STORE_FILE']
+            return signP
+        } else {
+            def signP = new String[4];
+            signP[0] = props['STORE_FILE']
+            signP[1] = props['STORE_PASSWORD']
+            signP[2] = props['KEY_ALIAS']
+            signP[3] = props['KEY_PASSWORD']
+            return signP
+        }
+    }
+}
+
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion "${BUILD_TOOLS_VERSION}"
+    defaultConfig {
+        applicationId "${APPLICATION_ID}"
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode VERSION_CODE as int
+        versionName "${VERSION_NAME}"
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    signingConfigs {
+        release {
+            try {
+                def signP = getSigningProperties(false)
+                storeFile file(signP[0])
+                storePassword signP[1]
+                keyAlias signP[2]
+                keyPassword signP[3]
+
+                v2SigningEnabled false
+            } catch (ex) {
+                ex.printStackTrace()
+            }
+        }
+        debug{
+            try {
+                def signP = getSigningProperties(true)
+                storeFile file(signP[0])
+
+                v2SigningEnabled false
+            } catch (ex) {
+                ex.printStackTrace()
+            }
+        }
+    }
+    compileOptions{
+        encoding = "UTF-8"
+    }
+    buildTypes {
+        debug{
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
 dependencies {
     implementation 'com.android.support:support-v4:24.2.1'
     implementation files('libs/activation.jar')
@@ -10,25 +85,8 @@ dependencies {
     implementation files('libs/zxing.jar')
     implementation files('libs/log4j-1.2.16.jar')
     implementation files('libs/org.apache.http.legacy.jar')
-    implementation "com.alibaba:fastjson:1.1.55.android"
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation 'com.android.support:appcompat-v7:24.2.1'
-}
-
-android {
-    compileSdkVersion 24
-    buildToolsVersion '27.0.3'
-    defaultConfig {
-        applicationId 'com.lxzh123.funcdemo'
-        minSdkVersion 18
-        targetSdkVersion 24
-        versionCode 1
-        versionName '1.0'
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+    implementation "com.alibaba:fastjson:${LIB_FASTJSON_VERSION}"
+    implementation "com.squareup.okhttp3:okhttp:${LIB_OKHTTP_VERSION}"
+    implementation "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
+    implementation "org.greenrobot:eventbus:${LIB_EVENTBUS_VERSION}"
 }
