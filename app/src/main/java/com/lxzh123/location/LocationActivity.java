@@ -181,15 +181,18 @@ public class LocationActivity extends Activity {
             message.what=0;
             message.obj=locationInfo;
 
-			getLocation(location);
+            getLocationInfo(location);
 		} else {
 		    message.what=2;
 		    message.obj="1.请检查网络连接 \n2.请打开我的位置";
 		}
         handler.sendMessage(message);
 	}
-    private void getLocation(Location location) {
+    private void getLocationInfo(Location location) {
         Log.d("getLocation", "1");
+        /**
+         * 定位服务:http://jwd.funnyapi.com/#/index
+         */
         String url = "http://116.196.105.215:1234/gis?auth_user=freevip&latitude=$Latitude&longitude=$Longitude";
         String response = new WebAccessTools(this).getWebContent(url.replace(
                 "$Latitude", location.getLatitude() + "").replace("$Longitude",
