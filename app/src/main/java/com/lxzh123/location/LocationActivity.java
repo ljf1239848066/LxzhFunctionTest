@@ -1,6 +1,7 @@
 package com.lxzh123.location;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -50,7 +51,7 @@ public class LocationActivity extends Activity {
 				.detectLeakedSqlLiteObjects() // 探测SQLite数据库操作
 				.penaltyLog() // 打印logcat
 				.penaltyDeath().build());
-		
+
 		locationView = (TextView) findViewById(R.id.location);
 		locationInfoView = (TextView) findViewById(R.id.locationinfo);
 	}
@@ -171,7 +172,8 @@ public class LocationActivity extends Activity {
 		Log.i("8023", "------位置服务：" + providerName);
         Message message=Message.obtain();
 		if (providerName != null) {
-			Location location = lm.getLastKnownLocation(providerName);
+			@SuppressLint("MissingPermission")
+            Location location = lm.getLastKnownLocation(providerName);
 			Log.i("8023", "-------" + location);
 			// 获取纬度信息
 			double latitude = location.getLatitude();
@@ -192,6 +194,7 @@ public class LocationActivity extends Activity {
         Log.d("getLocation", "1");
         /**
          * 定位服务:http://jwd.funnyapi.com/#/index
+         * 其他数据源:https://gadm.org
          */
         String url = "http://116.196.105.215:1234/gis?auth_user=freevip&latitude=$Latitude&longitude=$Longitude";
         String response = new WebAccessTools(this).getWebContent(url.replace(
