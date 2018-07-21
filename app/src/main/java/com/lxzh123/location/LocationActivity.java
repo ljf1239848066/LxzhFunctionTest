@@ -1,26 +1,42 @@
 package com.lxzh123.location;
 
-import java.util.List;
-
-import com.lxzh123.funcdemo.R;
-
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
+import android.os.SystemClock;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LocationActivity extends Activity {
+import com.lxzh123.funcdemo.R;
+import com.lxzh123.util.LocationPermission;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
+
+public class LocationActivity extends Activity {
+    private final static String TAG="LocationActivity";
 	private TextView locationView;
 	private TextView locationInfoView;
+    private static final int LOCATION_CODE = 1;
+    private boolean requestPerFinished=true;
 
 	@TargetApi(9)
 	@Override
@@ -37,18 +53,108 @@ public class LocationActivity extends Activity {
 		
 		locationView = (TextView) findViewById(R.id.location);
 		locationInfoView = (TextView) findViewById(R.id.locationinfo);
-		
-		new Thread(){
-
-			@Override
-			public void setContextClassLoader(ClassLoader cl) {
-				getLocation();
-				super.setContextClassLoader(cl);
-			}
-		}.start();
 	}
 
-	private void getLocation(){
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+        LocationPermission lp=hasLocationPermissions(this);
+        switch (lp){
+            case LocationProviderEnabledAndPermit:
+                EventBus.getDefault().post(handler);
+                break;
+            case LocationProviderEnabledButNotPermit:
+                requestPerFinished=false;
+                EventBus.getDefault().post(handler);
+                requestLocationPermissions(this,lp);
+                break;
+            case LocationProviderDisaabled:
+
+                break;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onMessageEvent(Object obj) {
+        while(!requestPerFinished){
+            SystemClock.sleep(100);
+        }
+        getLocation();
+    }
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==0){
+                locationView.setText(msg.obj.toString());
+            }else if(msg.what==1){
+                locationInfoView.setText(msg.obj.toString());
+            }else if(msg.what==2){
+                Toast.makeText(getBaseContext(), msg.obj.toString(), Toast.LENGTH_SHORT)
+                        .show();
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    /**
+     * 判断是否享有定位权限
+     * @param context
+     * @return 1:已开通定位功能且有定位权限 0:已开通定位功能但应用无定位权限 -1:未开通定位功能
+     */
+	private LocationPermission hasLocationPermissions(Context context){
+        LocationManager lm = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+        boolean ok = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (ok) {//开了定位服务
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return LocationPermission.LocationProviderEnabledAndPermit;
+            }else{
+                return LocationPermission.LocationProviderEnabledButNotPermit;
+            }
+        }
+        return LocationPermission.LocationProviderDisaabled;
+    }
+
+    private void requestLocationPermissions(Context context,LocationPermission lp){
+        if (lp==LocationPermission.LocationProviderEnabledButNotPermit) {//开了定位服务
+            Log.e("BRG","没有权限");
+            // 没有权限，申请权限。
+            ActivityCompat.requestPermissions(LocationActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_CODE);
+//                        Toast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
+        } else if(lp==LocationPermission.LocationProviderDisaabled){
+            Log.e("BRG","系统检测到未开启GPS定位服务");
+            Toast.makeText(context, "系统检测到未开启GPS定位服务", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivityForResult(intent, 1315);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 权限被用户同意。
+
+                } else {
+                    // 权限被用户拒绝了。
+                    Toast.makeText(LocationActivity.this, "定位权限被禁止，相关地图功能无法使用！",Toast.LENGTH_LONG).show();
+                }
+                requestPerFinished=true;
+            }
+        }
+    }
+
+    private void getLocation(){
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		// 返回所有已知的位置提供者的名称列表，包括未获准访问或调用活动目前已停用的。
 		List<String> lp = lm.getAllProviders();
@@ -63,6 +169,7 @@ public class LocationActivity extends Activity {
 		// getBestProvider 只有允许访问调用活动的位置供应商将被返回
 		String providerName = lm.getBestProvider(criteria, true);
 		Log.i("8023", "------位置服务：" + providerName);
+        Message message=Message.obtain();
 		if (providerName != null) {
 			Location location = lm.getLastKnownLocation(providerName);
 			Log.i("8023", "-------" + location);
@@ -70,28 +177,53 @@ public class LocationActivity extends Activity {
 			double latitude = location.getLatitude();
 			// 获取经度信息
 			double longitude = location.getLongitude();
-			locationView.setText("定位方式： " + providerName + "\n维度：" + latitude
-					+ "\n经度：" + longitude);
+			String locationInfo="定位方式： " + providerName + "\n维度：" + latitude+ "\n经度：" + longitude;
+            message.what=0;
+            message.obj=locationInfo;
+
 			getLocation(location);
 		} else {
-			Toast.makeText(this, "1.请检查网络连接 \n2.请打开我的位置", Toast.LENGTH_SHORT)
-					.show();
+		    message.what=2;
+		    message.obj="1.请检查网络连接 \n2.请打开我的位置";
 		}
+        handler.sendMessage(message);
 	}
-	
-	private void getLocation(Location location) {
-		Log.d("getLocation", "1");
-		String url = "http://maps.google.com/maps/api/geocode/json?latlng=Latitude,Longitude&sensor=true&language=zh-CN";
-		String response = new WebAccessTools(this).getWebContent(url.replace(
-				"Latitude", location.getLatitude() + "").replace("Longitude",
-				location.getLongitude() + ""));
-		Log.d("getLocation", response);
-		if(response==null){
-			Toast.makeText(getBaseContext(), "获取地址失败",Toast.LENGTH_SHORT).show();
-			return;
-		}
-		locationInfoView.setText(response.substring(
-				response.indexOf("formatted_address") + 22,
-				response.indexOf("geometry") - 13));
-	}
+    private void getLocation(Location location) {
+        Log.d("getLocation", "1");
+        String url = "http://116.196.105.215:1234/gis?auth_user=freevip&latitude=$Latitude&longitude=$Longitude";
+        String response = new WebAccessTools(this).getWebContent(url.replace(
+                "$Latitude", location.getLatitude() + "").replace("$Longitude",
+                location.getLongitude() + ""));
+        Message message=Message.obtain();
+        if(response==null){
+            message.what=2;
+            message.obj="获取地址失败";
+        }else{
+//            String locationInfo=response.substring(response.indexOf("formatted_address") + 22,
+//                    response.indexOf("geometry") - 13);
+            Log.i(TAG,"response:"+response);
+            message.what=1;
+            message.obj=response;
+        }
+        handler.sendMessage(message);
+    }
+//	private void getLocation(Location location) {
+//		Log.d("getLocation", "1");
+//		String url = "http://maps.google.com/maps/api/geocode/json?latlng=Latitude,Longitude&sensor=true&language=zh-CN";
+//		String response = new WebAccessTools(this).getWebContent(url.replace(
+//				"Latitude", location.getLatitude() + "").replace("Longitude",
+//				location.getLongitude() + ""));
+//        Message message=Message.obtain();
+//		if(response==null){
+//            message.what=2;
+//            message.obj="获取地址失败";
+//		}else{
+//            String locationInfo=response.substring(response.indexOf("formatted_address") + 22,
+//                    response.indexOf("geometry") - 13);
+//            Log.i(TAG,"response:"+response);
+//            message.what=1;
+//            message.obj=locationInfo;
+//        }
+//        handler.sendMessage(message);
+//	}
 }
