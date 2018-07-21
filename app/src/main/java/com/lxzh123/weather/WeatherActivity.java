@@ -15,7 +15,7 @@ public class WeatherActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            weatherInfo.setText(new GetWeather("武汉市","0").toString());
+            weatherInfo.setText(msg.obj.toString());
         }
     };
     @Override
@@ -27,7 +27,12 @@ public class WeatherActivity extends Activity {
 
 			@Override
 			public void run() {
-			    handler.sendEmptyMessage(0);
+			    GetWeather gw=new GetWeather("武汉","0");
+			    String weatherInfo=gw.toString();
+			    Message message=Message.obtain();
+			    message.obj=weatherInfo;
+			    message.what=0;
+			    handler.sendMessage(message);
 
 				super.run();
 			}

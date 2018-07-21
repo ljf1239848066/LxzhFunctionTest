@@ -45,7 +45,7 @@ public class LocationActivity extends Activity {
 				getLocation();
 				super.setContextClassLoader(cl);
 			}
-		};
+		}.start();
 	}
 
 	private void getLocation(){
