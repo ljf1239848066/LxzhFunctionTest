@@ -181,6 +181,14 @@ public class Sorter {
         MergeSortDivide(array,0,len-1,tmp,asc);
     }
 
+    /**
+     * 归并排序(分治)——分
+     * @param array 待排序的数组
+     * @param l     左
+     * @param r     右
+     * @param tmp   与array相同大小的临时数组
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
     private static void MergeSortDivide(int[] array,int l,int r,int[] tmp,boolean asc){
         if(l<r){
             int mid=(l+r)/2;
@@ -189,6 +197,16 @@ public class Sorter {
             MergeSortMerge(array,l,mid,r,tmp,asc);
         }
     }
+
+    /**
+     * 归并排序(分治)——治(合)
+     * @param array 待排序的数组
+     * @param l     左
+     * @param mid   中
+     * @param r     右
+     * @param tmp   与array相同大小的临时数组
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
     private static void MergeSortMerge(int[] array,int l,int mid,int r,int[] tmp,boolean asc){
         int i=l;
         int j=mid+1;
