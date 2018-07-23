@@ -170,9 +170,57 @@ public class Sorter {
         array[i]=tmp;//右子节点赋值为跟节点 完成调整
     }
 
+    /**
+     * 归并排序 参考:https://www.cnblogs.com/chengxiao/p/6194356.html
+     * @param array 待排序的数组
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
     public static void MergeSort(int[] array,boolean asc){
+        int len=array.length;
+        int[] tmp=new int[len];
+        MergeSortDivide(array,0,len-1,tmp,asc);
+    }
 
+    private static void MergeSortDivide(int[] array,int l,int r,int[] tmp,boolean asc){
+        if(l<r){
+            int mid=(l+r)/2;
+            MergeSortDivide(array,l,mid,tmp,asc);
+            MergeSortDivide(array,mid+1,r,tmp,asc);
+            MergeSortMerge(array,l,mid,r,tmp,asc);
+        }
+    }
+    private static void MergeSortMerge(int[] array,int l,int mid,int r,int[] tmp,boolean asc){
+        int i=l;
+        int j=mid+1;
+        int k=0;
+        if(asc){
+            while(i<=mid&&j<=r){
+                if(array[i]<array[j]){
+                    tmp[k++]=array[i++];
+                }else{
+                    tmp[k++]=array[j++];
+                }
+            }
+        }else{
+            while(i<=mid&&j<=r){
+                if(array[i]>array[j]){
+                    tmp[k++]=array[i++];
+                }else{
+                    tmp[k++]=array[j++];
+                }
+            }
+        }
 
+        while(i<=mid){
+            tmp[k++]=array[i++];
+        }
+        while(j<=r){
+            tmp[k++]=array[j++];
+        }
+        k=0;
+        while(l<=r){
+            array[l++]=tmp[k++];
+        }
     }
 
     public static void QuickSort(int[] array,boolean asc){
