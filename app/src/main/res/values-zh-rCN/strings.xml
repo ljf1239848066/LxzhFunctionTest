@@ -25,4 +25,10 @@
     <string name="activity_sort_gen">生成随机数</string>
     <string name="activity_sort_sort">排序</string>
     <string name="activity_sort_bubblesort">冒泡排序</string>
+    <string name="activity_sort_insertsort">插入排序</string>
+    <string name="activity_sort_selectsort">选择排序</string>
+    <string name="activity_sort_shellsort">希尔排序</string>
+    <string name="activity_sort_heapsort">堆排序</string>
+    <string name="activity_sort_mergesort">归并排序</string>
+    <string name="activity_sort_quicksort">快速排序</string>
 </resources>

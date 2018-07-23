@@ -44,5 +44,11 @@
     <string name="activity_sort_gen">generate random data</string>
     <string name="activity_sort_sort">Sort</string>
     <string name="activity_sort_bubblesort">BubbleSort</string>
+    <string name="activity_sort_insertsort">InsertSort</string>
+    <string name="activity_sort_selectsort">SelectSort</string>
+    <string name="activity_sort_shellsort">ShellSort</string>
+    <string name="activity_sort_heapsort">HeapSort</string>
+    <string name="activity_sort_mergesort">MergeSort</string>
+    <string name="activity_sort_quicksort">QuickSort</string>
 
 </resources>

@@ -21,7 +21,7 @@ public class SortActivity extends Activity {
     private Button btnSort;
     private EditText etArrCnt;
     private TextView tvOrigArray;
-    private TextView tvRstBubbleSort;
+    private TextView tvRstSort;
     private int[] array;
     private int arrcnt=20;
     @Override
@@ -32,7 +32,7 @@ public class SortActivity extends Activity {
         btnSort=(Button)findViewById(R.id.btnSort);
         etArrCnt=(EditText)findViewById(R.id.etArrCnt);
         tvOrigArray=(TextView)findViewById(R.id.tvOrigArray);
-        tvRstBubbleSort=(TextView)findViewById(R.id.tvRst_BubbleSort);
+        tvRstSort=(TextView)findViewById(R.id.tvRst_Sort);
 
 
         btnGen.setOnClickListener(new View.OnClickListener() {
@@ -48,10 +48,23 @@ public class SortActivity extends Activity {
             @Override
             public void onClick(View v) {
                 int[] tmpArray=Arrays.copyOf(array,arrcnt);
-                long tStart=SystemClock.elapsedRealtime();
-                Sorter.BubbleSort(tmpArray,true);
-                long tEnd=SystemClock.elapsedRealtime();
-                tvRstBubbleSort.setText("冒泡排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(tmpArray));
+                StringBuffer buf=new StringBuffer();
+                long tStart,tEnd;
+                int[] tmp;
+
+                tmp=tmpArray.clone();
+                tStart=SystemClock.elapsedRealtime();
+                Sorter.BubbleSort(tmp,true);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("冒泡排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(tmp));
+
+                tmp=tmpArray.clone();
+                tStart=SystemClock.elapsedRealtime();
+                Sorter.InsertSort(tmp,true);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("\n插入排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(tmp));
+
+                tvRstSort.setText(buf.toString());
             }
         });
     }

@@ -26,4 +26,28 @@ public class Sorter {
             }
         }
     }
+
+    public static void InsertSort(int[] array,boolean asc){
+        int len=array.length;
+        int tmp;
+        int j;
+        if(asc){
+            for(int i=1;i<len;i++){
+                tmp=array[i];
+                for(j=i;j>0&&tmp<array[j-1];j--){
+                    array[j]=array[j-1];
+                }
+                array[j]=tmp;
+            }
+        }else{
+            for(int i=1;i<len;i++){
+                tmp=array[i];
+                for(j=i;j>0&&tmp>array[j-1];j--){
+                    array[j]=array[j-1];
+                }
+                array[j]=tmp;
+            }
+        }
+
+    }
 }

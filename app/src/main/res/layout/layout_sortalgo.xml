@@ -35,11 +35,10 @@
             android:text="@string/activity_sort_sort" />
 
         <TextView
-            android:id="@+id/tvRst_BubbleSort"
+            android:id="@+id/tvRst_Sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnSort"
-            android:text="@string/activity_sort_bubblesort" />
+            android:layout_below="@id/btnSort"/>
 
 
     </RelativeLayout>
