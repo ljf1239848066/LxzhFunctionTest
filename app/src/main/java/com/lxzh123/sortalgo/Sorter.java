@@ -83,7 +83,36 @@ public class Sorter {
     }
 
     public static void ShellSort(int[] array,boolean asc){
-
+        int len=array.length;
+        int h=1;
+        while(h<len/3){
+            h=h*3+1;
+        }
+        int tmp;
+        int j;
+        if(asc){
+            while(h>=1){
+                for(int i=h;i<len;i++){
+                    tmp=array[i];
+                    for(j=i;j>=h&&tmp<array[j-h];j-=h){
+                        array[j]=array[j-h];
+                    }
+                    array[j]=tmp;
+                }
+                h=h/3;
+            }
+        }else{
+            while(h>=1){
+                for(int i=h;i<len;i++){
+                    tmp=array[i];
+                    for(j=i;j>=h&&tmp>array[j-h];j-=h){
+                        array[j]=array[j-h];
+                    }
+                    array[j]=tmp;
+                }
+                h=h/3;
+            }
+        }
     }
 
     public static void HeapSort(int[] array,boolean asc){
