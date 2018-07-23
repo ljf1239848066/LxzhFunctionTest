@@ -1,6 +1,12 @@
 package com.lxzh123.sortalgo;
 
 public class Sorter {
+    private static void Swap(int[] array,int i,int j){
+        int tmp=array[i];
+        array[i]=array[j];
+        array[j]=tmp;
+    }
+
     public static void BubbleSort(int[] array,boolean asc){
         int len=array.length;
         int tmp;
@@ -8,9 +14,7 @@ public class Sorter {
             for(int i=0;i<len-1;i++){
                 for(int j=i+1;j<len;j++){
                     if(array[i]>array[j]){
-                        tmp=array[i];
-                        array[i]=array[j];
-                        array[j]=tmp;
+                        Swap(array,i,j);
                     }
                 }
             }
@@ -18,9 +22,7 @@ public class Sorter {
             for(int i=0;i<len-1;i++){
                 for(int j=i+1;j<len;j++){
                     if(array[i]<array[j]){
-                        tmp=array[i];
-                        array[i]=array[j];
-                        array[j]=tmp;
+                        Swap(array,i,j);
                     }
                 }
             }
@@ -115,11 +117,61 @@ public class Sorter {
         }
     }
 
+    /**
+     * 堆排序函数 参考:https://www.cnblogs.com/chengxiao/p/6129630.html
+     * @param array 待排序的数组
+     * @param asc 是否为升序排序模式 true:升序 false:降序
+     */
     public static void HeapSort(int[] array,boolean asc){
+        int len=array.length;
+        for(int i=len/2-1;i>=0;i--){
+            AdjustHeap(array,i,len,asc);
+        }
+        for(int i=len-1;i>0;i--){
+            Swap(array,0,i);//将堆顶元素与最后一个元素交换
+            AdjustHeap(array,0,i,asc);//重新调整余下len-1个元素
+        }
+    }
 
+    /**
+     * 堆排序 堆调整函数
+     * @param array 堆数组
+     * @param i 待调整的节点头元素索引
+     * @param len 待调整的数组长度
+     * @param asc 是否为升序排序模式 true:升序 false:降序
+     */
+    private static void AdjustHeap(int[] array,int i,int len,boolean asc){
+        int tmp=array[i];//先取出当前元素i
+        if(asc){//升序采用大顶堆
+            for(int k=2*i+1;k<len;k=k*2+1){
+                if(k+1<len&&array[k]<array[k+1]){//如果左子节点小于右子节点，k指向右子节点
+                    k++;
+                }
+                if(tmp<array[k]){//如果跟节点小于子节点
+                    array[i]=array[k];//根节点赋值为较大子节点
+                    i=k;//跟节点指向右子节点 迭代
+                }else{
+                    break;
+                }
+            }
+        }else{//降序采用小顶堆
+            for(int k=2*i+1;k<len;k=k*2+1){
+                if(k+1<len&&array[k]>array[k+1]){//如果左子节点大于右子节点，k指向右子节点
+                    k++;
+                }
+                if(tmp>array[k]){//如果跟节点大于子节点
+                    array[i]=array[k];//根节点赋值为较小子节点
+                    i=k;//跟节点指向右子节点 迭代
+                }else{
+                    break;
+                }
+            }
+        }
+        array[i]=tmp;//右子节点赋值为跟节点 完成调整
     }
 
     public static void MergeSort(int[] array,boolean asc){
+
 
     }
 
