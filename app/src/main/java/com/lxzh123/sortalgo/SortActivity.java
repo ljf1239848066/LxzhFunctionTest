@@ -60,9 +60,33 @@ public class SortActivity extends Activity {
 
                 tmp=tmpArray.clone();
                 tStart=SystemClock.elapsedRealtime();
+                Sorter.BubbleSort(tmp,false);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("\n冒泡排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(tmp));
+
+                tmp=tmpArray.clone();
+                tStart=SystemClock.elapsedRealtime();
                 Sorter.InsertSort(tmp,true);
                 tEnd=SystemClock.elapsedRealtime();
                 buf.append("\n插入排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(tmp));
+
+                tmp=tmpArray.clone();
+                tStart=SystemClock.elapsedRealtime();
+                Sorter.InsertSort(tmp,false);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("\n插入排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(tmp));
+
+                tmp=tmpArray.clone();
+                tStart=SystemClock.elapsedRealtime();
+                Sorter.SelectSort(tmp,true);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("\n选择排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(tmp));
+
+                tmp=tmpArray.clone();
+                tStart=SystemClock.elapsedRealtime();
+                Sorter.SelectSort(tmp,false);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("\n选择排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(tmp));
 
                 tvRstSort.setText(buf.toString());
             }
