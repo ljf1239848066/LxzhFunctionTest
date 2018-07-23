@@ -1,12 +1,27 @@
 package com.lxzh123.sortalgo;
 
+/**
+ * description: 常用排序公共类
+ * author:      Created by a1239848066 on 2018/7/20.
+ */
 public class Sorter {
+    /**
+     * 数组元素交换
+     * @param array 待交换的数组
+     * @param i     待交换元素1索引
+     * @param j     待交换元素2索引
+     */
     private static void Swap(int[] array,int i,int j){
         int tmp=array[i];
         array[i]=array[j];
         array[j]=tmp;
     }
 
+    /**
+     * 冒泡排序
+     * @param array 待排序的数组
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
     public static void BubbleSort(int[] array,boolean asc){
         int len=array.length;
         int tmp;
@@ -29,6 +44,11 @@ public class Sorter {
         }
     }
 
+    /**
+     * 插入排序
+     * @param array 待排序的数组
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
     public static void InsertSort(int[] array,boolean asc){
         int len=array.length;
         int tmp;
@@ -52,6 +72,11 @@ public class Sorter {
         }
     }
 
+    /**
+     * 选择排序
+     * @param array 待排序的数组
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
     public static void SelectSort(int[] array,boolean asc){
         int len=array.length;
         int tmp;
@@ -84,6 +109,11 @@ public class Sorter {
         }
     }
 
+    /**
+     * 希尔排序 参考:https://www.cnblogs.com/alsf/p/6606287.html
+     * @param array 待排序的数组
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
     public static void ShellSort(int[] array,boolean asc){
         int len=array.length;
         int h=1;
