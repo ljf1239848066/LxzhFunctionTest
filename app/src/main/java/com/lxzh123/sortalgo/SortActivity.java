@@ -69,7 +69,7 @@ public class SortActivity extends Activity {
                 tStart=SystemClock.elapsedRealtime();
                 Sorter.InsertSort(tmp,true);
                 tEnd=SystemClock.elapsedRealtime();
-                buf.append("\n插入排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+                buf.append("\n\n插入排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
 
                 tmp=tmpArray.clone();
                 tStart=SystemClock.elapsedRealtime();
@@ -82,7 +82,7 @@ public class SortActivity extends Activity {
                 tStart=SystemClock.elapsedRealtime();
                 Sorter.SelectSort(tmp,true);
                 tEnd=SystemClock.elapsedRealtime();
-                buf.append("\n选择排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+                buf.append("\n\n选择排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
 
                 tmp=tmpArray.clone();
                 tStart=SystemClock.elapsedRealtime();
@@ -95,7 +95,7 @@ public class SortActivity extends Activity {
                 tStart=SystemClock.elapsedRealtime();
                 Sorter.ShellSort(tmp,true);
                 tEnd=SystemClock.elapsedRealtime();
-                buf.append("\n希尔排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+                buf.append("\n\n希尔排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
 
                 tmp=tmpArray.clone();
                 tStart=SystemClock.elapsedRealtime();
@@ -108,7 +108,7 @@ public class SortActivity extends Activity {
                 tStart=SystemClock.elapsedRealtime();
                 Sorter.HeapSort(tmp,true);
                 tEnd=SystemClock.elapsedRealtime();
-                buf.append("\n堆排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+                buf.append("\n\n堆排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
 
                 tmp=tmpArray.clone();
                 tStart=SystemClock.elapsedRealtime();
@@ -121,7 +121,7 @@ public class SortActivity extends Activity {
                 tStart=SystemClock.elapsedRealtime();
                 Sorter.MergeSort(tmp,true);
                 tEnd=SystemClock.elapsedRealtime();
-                buf.append("\n归并排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+                buf.append("\n\n归并排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
 
                 tmp=tmpArray.clone();
                 tStart=SystemClock.elapsedRealtime();
@@ -134,7 +134,7 @@ public class SortActivity extends Activity {
                 tStart=SystemClock.elapsedRealtime();
                 Sorter.QuickSort(tmp,true);
                 tEnd=SystemClock.elapsedRealtime();
-                buf.append("\n快速排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+                buf.append("\n\n快速排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
 
                 tmp=tmpArray.clone();
                 tStart=SystemClock.elapsedRealtime();

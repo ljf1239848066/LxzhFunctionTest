@@ -241,7 +241,80 @@ public class Sorter {
         }
     }
 
+    /**
+     * 快速排序
+     * @param array 待排序的数组
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
     public static void QuickSort(int[] array,boolean asc){
+        int len=array.length;
+        QuickSort(array,0,len-1,asc);
+    }
 
+    /**
+     * 快速排序——递归函数
+     * @param array 待排序的数组
+     * @param l     左
+     * @param r     右
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
+    private static void QuickSort(int[] array,int l,int r,boolean asc){
+        if(l>=r){
+            return;
+        }
+        int j=QuickSortPartion(array,l,r,asc);
+        QuickSort(array,l,j-1,asc);
+        QuickSort(array,j+1,r,asc);
+    }
+
+    /**
+     * 快速排序——分区操作
+     * @param array 待排序的数组
+     * @param l     左
+     * @param r     右
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     * @return
+     */
+    private static int QuickSortPartion(int[] array,int l,int r,boolean asc){
+        int i=l,j=r+1;
+        int tmp=array[l];
+        if(asc){
+            while(true){
+                while(array[++i]<tmp){
+                    if(i==r){
+                        break;
+                    }
+                }
+                while(tmp<array[--j]){
+                    if(j==l){
+                        break;
+                    }
+                }
+                if(i>=j){
+                    break;
+                }
+                Swap(array,i,j);
+            }
+        }else{
+            while(true){
+                while(array[++i]>tmp){
+                    if(i==r){
+                        break;
+                    }
+                }
+                while(tmp>array[--j]){
+                    if(j==l){
+                        break;
+                    }
+                }
+                if(i>=j){
+                    break;
+                }
+                Swap(array,i,j);
+            }
+        }
+
+        Swap(array,l,j);
+        return j;
     }
 }
