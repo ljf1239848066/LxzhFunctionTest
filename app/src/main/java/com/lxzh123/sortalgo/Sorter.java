@@ -81,4 +81,20 @@ public class Sorter {
             }
         }
     }
+
+    public static void ShellSort(int[] array,boolean asc){
+
+    }
+
+    public static void HeapSort(int[] array,boolean asc){
+
+    }
+
+    public static void MergeSort(int[] array,boolean asc){
+
+    }
+
+    public static void QuickSort(int[] array,boolean asc){
+
+    }
 }
