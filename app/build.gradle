@@ -49,7 +49,7 @@ android {
                 ex.printStackTrace()
             }
         }
-        debug{
+        debug {
             try {
                 def signP = getSigningProperties(true)
                 storeFile file(signP[0])
@@ -60,11 +60,11 @@ android {
             }
         }
     }
-    compileOptions{
+    compileOptions {
         encoding = "UTF-8"
     }
     buildTypes {
-        debug{
+        debug {
             signingConfig signingConfigs.debug
         }
         release {
@@ -89,4 +89,5 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:${LIB_OKHTTP_VERSION}"
     implementation "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
     implementation "org.greenrobot:eventbus:${LIB_EVENTBUS_VERSION}"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }

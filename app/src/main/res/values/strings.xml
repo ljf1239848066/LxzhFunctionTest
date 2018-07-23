@@ -1,5 +1,5 @@
 <resources>
-<!-- Activity name -->
+    <!-- Activity name -->
     <string name="app_name">LxzhFunctionTest</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>

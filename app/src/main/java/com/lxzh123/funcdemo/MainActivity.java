@@ -41,7 +41,8 @@ public class MainActivity extends ListActivity{
                 "FTP",
                 "BCReceiver",
                 "BootStart",
-                "Sort Algo"};
+                "Sort Algo",
+                "Find Algo"};
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.main,funcStr);
         this.setListAdapter(adapter);
         this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
