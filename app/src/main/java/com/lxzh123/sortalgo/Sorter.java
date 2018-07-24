@@ -54,11 +54,11 @@ public class Sorter {
     }
 
     /**
-     * 冒泡排序
+     * 冒泡排序 前向冒泡
      * @param array 待排序的数组
      * @param asc   是否为升序排序模式 true:升序 false:降序
      */
-    public static void BubbleSort(int[] array,boolean asc){
+    public static void BubbleSortForward(int[] array,boolean asc){
         int len=array.length;
         if(asc){
             for(int i=0;i<len-1;i++){
@@ -73,6 +73,31 @@ public class Sorter {
                 for(int j=i+1;j<len;j++){
                     if(array[i]<array[j]){
                         Swap(array,i,j);
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * 冒泡排序 后向冒泡
+     * @param array 待排序的数组
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
+    public static void BubbleSortBackword(int[] array,boolean asc){
+        int len=array.length;
+        if(asc){
+            for(int i=0;i<len-1;i++){
+                for(int j=0;j<len-1-i;j++){
+                    if(array[j]>array[j+1]){
+                        Swap(array,j,j+1);
+                    }
+                }
+            }
+        }else{
+            for(int i=0;i<len-1;i++){
+                for(int j=0;j<len-1-i;j++){
+                    if(array[j]<array[j+1]){
+                        Swap(array,j,j+1);
                     }
                 }
             }
@@ -114,32 +139,33 @@ public class Sorter {
      */
     public static void SelectSort(int[] array,boolean asc){
         int len=array.length;
-        int tmp;
         if(asc){
+            //每一轮循环未排序序列中找到最小元素的下标min
             int min;
-            for(int i=0;i<len;i++){
+            for(int i=0;i<len-1;i++){
                 min=i;
                 for(int j=i+1;j<len;j++){
                     if(array[j]<array[min]){
                         min=j;
                     }
                 }
-                tmp=array[i];
-                array[i]=array[min];
-                array[min]=tmp;
+                if(i!=min){
+                    //最小元素依次与未排序序列首元素交换(放置于已排序序列末尾)
+                    Swap(array,i,min);
+                }
             }
         }else{
             int max;
-            for(int i=0;i<len;i++){
+            for(int i=0;i<len-1;i++){
                 max=i;
                 for(int j=i+1;j<len;j++){
                     if(array[j]>array[max]){
                         max=j;
                     }
                 }
-                tmp=array[i];
-                array[i]=array[max];
-                array[max]=tmp;
+                if(i!=max){
+                    Swap(array,i,max);
+                }
             }
         }
     }
@@ -256,9 +282,12 @@ public class Sorter {
      */
     private static void MergeSortDivide(int[] array,int l,int r,int[] tmp,boolean asc){
         if(l<r){
+            //定义中值值将序列从中间分割
             int mid=(l+r)/2;
+            //对中值两侧的子序列进行迭代分割
             MergeSortDivide(array,l,mid,tmp,asc);
             MergeSortDivide(array,mid+1,r,tmp,asc);
+            //按需合并两个子序列
             MergeSortMerge(array,l,mid,r,tmp,asc);
         }
     }
@@ -278,6 +307,7 @@ public class Sorter {
         int k=0;
         if(asc){
             while(i<=mid&&j<=r){
+                //依次选择左右两个子序列中较小值填充到新序列
                 if(array[i]<array[j]){
                     tmp[k++]=array[i++];
                 }else{
@@ -294,15 +324,19 @@ public class Sorter {
             }
         }
 
+        //左序列未遍历完，依次填充到新序列末尾
         while(i<=mid){
             tmp[k++]=array[i++];
         }
+        //右序列未遍历完，依次填充到新序列末尾
         while(j<=r){
             tmp[k++]=array[j++];
         }
         k=0;
-        while(l<=r){
-            array[l++]=tmp[k++];
+        //新序列拷贝回原始序列
+        while(k<=r){
+            array[k]=tmp[k];
+            k++;
         }
     }
 
@@ -382,4 +416,68 @@ public class Sorter {
         Swap(array,l,j);
         return j;
     }
+
+    public static void CountingSort(int[] array, boolean asc) {
+        int len=array.length;
+        int maxValue=array[0];
+        for(int i=1;i<len;i++){
+            if(maxValue<array[i]){
+                maxValue=array[i];
+            }
+        }
+        CountingSort(array,maxValue,asc);
+    }
+
+    private static void CountingSort(int[] array, int maxValue, boolean asc) {
+        int[] bucket = new int[maxValue + 1];
+        int sortedIndex = 0;
+        int len = array.length;
+        int bucketLen = maxValue + 1;
+
+        for (int i = 0; i < len; i++) {
+            if (bucket[array[i]] > 0) {
+                bucket[array[i]] = 0;
+            }
+            bucket[array[i]]++;
+        }
+
+        for (int j = 0; j < bucketLen; j++) {
+            while (bucket[j] > 0) {
+                array[sortedIndex++] = j;
+                bucket[j]--;
+            }
+        }
+    }
+
+    /*
+    public static void RadixSort(int[] array, boolean asc) {
+        int len=array.length;
+        int n=1;//代表位数对应的数：1,10,100...
+        int k=0;//保存每一位排序后的结果用于下一位的排序输入
+        int[][] bucket=new int[10][len];//排序桶用于保存每次排序后的结果，这一位上排序结果相同的数字放在同一个桶里
+        int[] order=new int[len];//用于保存每个桶里有多少个数字
+        while(n<d)
+        {
+            for(int num:array) //将数组array里的每个数字放在相应的桶里
+            {
+                int digit=(num/n)%10;
+                bucket[digit][order[digit]]=num;
+                order[digit]++;
+            }
+            for(int i=0;i<len;i++)//将前一个循环生成的桶里的数据覆盖到原数组中用于保存这一位的排序结果
+            {
+                if(order[i]!=0)//这个桶里有数据，从上到下遍历这个桶并将数据保存到原数组中
+                {
+                    for(int j=0;j<order[i];j++)
+                    {
+                        array[k]=bucket[i][j];
+                        k++;
+                    }
+                }
+                order[i]=0;//将桶里计数器置0，用于下一次位排序
+            }
+            n*=10;
+            k=0;//将k置0，用于下一轮保存位排序结果
+        }
+    }*/
 }

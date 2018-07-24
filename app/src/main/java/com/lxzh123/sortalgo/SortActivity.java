@@ -53,15 +53,27 @@ public class SortActivity extends Activity {
 
                 tmp=tmpArray.clone();
                 tStart=SystemClock.elapsedRealtime();
-                Sorter.BubbleSort(tmp,true);
+                Sorter.BubbleSortForward(tmp,true);
                 tEnd=SystemClock.elapsedRealtime();
-                buf.append("冒泡排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+                buf.append("前向冒泡排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
 
                 tmp=tmpArray.clone();
                 tStart=SystemClock.elapsedRealtime();
-                Sorter.BubbleSort(tmp,false);
+                Sorter.BubbleSortForward(tmp,false);
                 tEnd=SystemClock.elapsedRealtime();
-                buf.append("\n冒泡排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+                buf.append("\n前向冒泡排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+
+                tmp=tmpArray.clone();
+                tStart=SystemClock.elapsedRealtime();
+                Sorter.BubbleSortForward(tmp,true);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("\n\n后向冒泡排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+
+                tmp=tmpArray.clone();
+                tStart=SystemClock.elapsedRealtime();
+                Sorter.BubbleSortForward(tmp,false);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("\n后向冒泡排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
 
 
                 tmp=tmpArray.clone();
