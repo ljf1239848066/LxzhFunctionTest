@@ -34,7 +34,6 @@ public class SortActivity extends Activity {
         tvOrigArray=(TextView)findViewById(R.id.tvOrigArray);
         tvRstSort=(TextView)findViewById(R.id.tvRst_Sort);
 
-
         btnGen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

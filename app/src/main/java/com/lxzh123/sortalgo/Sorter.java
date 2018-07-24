@@ -18,6 +18,42 @@ public class Sorter {
     }
 
     /**
+     * 数组元素交换 直接交换
+     * @param array 待交换的数组
+     * @param i     待交换元素1索引
+     * @param j     待交换元素2索引
+     */
+    public static void Swap1(int[] array,int i,int j){
+        int tmp=array[i];
+        array[i]=array[j];
+        array[j]=tmp;
+    }
+
+    /**
+     * 数组元素交换 异或交换
+     * @param array 待交换的数组
+     * @param i     待交换元素1索引
+     * @param j     待交换元素2索引
+     */
+    public static void Swap2(int[] array,int i,int j){
+        array[i]^=array[j];
+        array[j]^=array[j];
+        array[i]^=array[j];
+    }
+
+    /**
+     * 数组元素交换 加法交换
+     * @param array 待交换的数组
+     * @param i     待交换元素1索引
+     * @param j     待交换元素2索引
+     */
+    public static void Swap3(int[] array,int i,int j){
+        array[i]=array[i]+array[j];
+        array[j]=array[i]-array[j];
+        array[i]=array[i]-array[j];
+    }
+
+    /**
      * 冒泡排序
      * @param array 待排序的数组
      * @param asc   是否为升序排序模式 true:升序 false:降序
