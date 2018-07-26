@@ -31,4 +31,8 @@
     <string name="activity_sort_heapsort">堆排序</string>
     <string name="activity_sort_mergesort">归并排序</string>
     <string name="activity_sort_quicksort">快速排序</string>
+
+    <!-- Activity——find -->
+    <string name="activity_find_gen">生成随机数</string>
+    <string name="activity_find_find">查找</string>
 </resources>

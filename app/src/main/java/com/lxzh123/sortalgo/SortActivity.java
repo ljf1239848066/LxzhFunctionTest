@@ -27,7 +27,7 @@ public class SortActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_sortalgo);
+        setContentView(R.layout.layout_activity_sortalgo);
         btnGen=(Button)findViewById(R.id.btnGenRandData);
         btnSort=(Button)findViewById(R.id.btnSort);
         etArrCnt=(EditText)findViewById(R.id.etArrCnt);

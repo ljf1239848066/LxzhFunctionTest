@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import com.lxzh123.bcreceiver.BCReceiverActivity;
 import com.lxzh123.bootstart.BootStartActivity;
 import com.lxzh123.filebrowser.FileBrowserActivity;
+import com.lxzh123.findalgo.FindActivity;
 import com.lxzh123.ftp.FTPActivity;
 import com.lxzh123.inputmethod.InputMethodActivity;
 import com.lxzh123.location.LocationActivity;
@@ -91,6 +92,9 @@ public class MainActivity extends ListActivity{
                         break;
                     case 13:
                         intent.setClass(MainActivity.this, SortActivity.class);
+                        break;
+                    case 14:
+                        intent.setClass(MainActivity.this, FindActivity.class);
                         break;
 //		case R.id.btnCycleWheelView:
 //			intent.setClass(MainActivity.this, CycleWheelViewActivity.class);

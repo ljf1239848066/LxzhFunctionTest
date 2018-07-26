@@ -51,4 +51,8 @@
     <string name="activity_sort_mergesort">MergeSort</string>
     <string name="activity_sort_quicksort">QuickSort</string>
 
+    <!-- Activity——find -->
+    <string name="activity_find_gen">generate random data</string>
+    <string name="activity_find_find">Sort</string>
+
 </resources>

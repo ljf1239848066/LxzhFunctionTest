@@ -94,8 +94,12 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="com.lxzh123.sortalgo.SortActivity" />
-        <activity android:name="com.lxzh123.findalgo.FindActivity"></activity>
+        <activity
+            android:name="com.lxzh123.sortalgo.SortActivity"
+            android:label="SortAlgorithm" />
+        <activity
+            android:name="com.lxzh123.findalgo.FindActivity"
+            android:label="FindAlgorithm"/>
     </application>
 
 </manifest>
