@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lxzh123.funcdemo.R;
+import com.lxzh123.sortalgo.Sorter;
 
 import org.apache.log4j.helpers.OptionConverter;
 
@@ -59,10 +60,24 @@ public class FindActivity extends Activity {
                 val= OptionConverter.toInt(str,0);
 
                 tmp=tmpArray.clone();
+                Sorter.QuickSort(tmp,true);
+                buf.append("数组排序后结果:"+Arrays.toString(tmp)+"\n");
+
                 tStart=SystemClock.elapsedRealtime();
-                for(int i=0;i<100;i++) idx=Finder.SequentialFind(tmp,val);
+                for(int i=0;i<100;i++) idx=Finder.SequentialSearch(tmpArray,val);
                 tEnd=SystemClock.elapsedRealtime();
                 buf.append("顺序查找用时:"+(tEnd-tStart)+",结果:"+idx+"\n");
+
+
+                tStart=SystemClock.elapsedRealtime();
+                for(int i=0;i<100;i++) idx=Finder.BinarySearch1(tmp,val);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("二分法查找(循环法)用时:"+(tEnd-tStart)+",结果:"+idx+"\n");
+
+                tStart=SystemClock.elapsedRealtime();
+                for(int i=0;i<100;i++) idx=Finder.BinarySearch2(tmp,val);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("二分法查找(递归法)用时:"+(tEnd-tStart)+",结果:"+idx+"\n");
 
                 tvRstFind.setText(buf.toString());
             }
