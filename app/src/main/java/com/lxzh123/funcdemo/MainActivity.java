@@ -7,21 +7,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import com.lxzh123.bcreceiver.BCReceiverActivity;
-import com.lxzh123.bootstart.BootStartActivity;
-import com.lxzh123.filebrowser.FileBrowserActivity;
-import com.lxzh123.findalgo.FindActivity;
-import com.lxzh123.ftp.FTPActivity;
-import com.lxzh123.inputmethod.InputMethodActivity;
-import com.lxzh123.location.LocationActivity;
-import com.lxzh123.notification.NotificationActivity;
-import com.lxzh123.quickmark.QuickMarkActivity;
-import com.lxzh123.record.RecordActivity;
-import com.lxzh123.record1.SoundRecorderActivity;
-import com.lxzh123.savedata.xml.XmlSaveDataActivity;
-import com.lxzh123.sendemail.SendMailActivity;
-import com.lxzh123.sortalgo.SortActivity;
-import com.lxzh123.weather.WeatherActivity;
+import com.lxzh123.funcdemo.bcreceiver.BCReceiverActivity;
+import com.lxzh123.funcdemo.bootstart.BootStartActivity;
+import com.lxzh123.funcdemo.filebrowser.FileBrowserActivity;
+import com.lxzh123.funcdemo.findalgo.FindActivity;
+import com.lxzh123.funcdemo.ftp.FTPActivity;
+import com.lxzh123.funcdemo.inputmethod.InputMethodActivity;
+import com.lxzh123.funcdemo.location.LocationActivity;
+import com.lxzh123.funcdemo.notification.NotificationActivity;
+import com.lxzh123.funcdemo.quickmark.QuickMarkActivity;
+import com.lxzh123.funcdemo.record.RecordActivity;
+import com.lxzh123.funcdemo.record1.SoundRecorderActivity;
+import com.lxzh123.funcdemo.xml.XmlSaveDataActivity;
+import com.lxzh123.funcdemo.sendemail.SendMailActivity;
+import com.lxzh123.funcdemo.sortalgo.SortActivity;
+import com.lxzh123.funcdemo.weather.WeatherActivity;
 
 public class MainActivity extends ListActivity{
 

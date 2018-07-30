@@ -30,29 +30,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.lxzh123.quickmark.QuickMarkActivity"
+            android:name=".quickmark.QuickMarkActivity"
             android:label="@string/title_activity_quick_mark" />
         <activity
-            android:name="com.lxzh123.sendemail.SendMailActivity"
+            android:name=".sendemail.SendMailActivity"
             android:label="@string/title_activity_send_mail"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="com.lxzh123.savedata.xml.XmlSaveDataActivity"
+            android:name=".xml.XmlSaveDataActivity"
             android:label="@string/title_activity_xml_save_data" />
         <activity
-            android:name="com.lxzh123.savedata.xml.XmlSaveDataNextActivity"
+            android:name=".xml.XmlSaveDataNextActivity"
             android:label="@string/title_activity_xml_save_data_next" />
         <activity
-            android:name="com.lxzh123.notification.NotificationActivity"
+            android:name=".notification.NotificationActivity"
             android:label="@string/title_activity_notification" />
         <activity
-            android:name="com.lxzh123.filebrowser.FileBrowserActivity"
+            android:name=".filebrowser.FileBrowserActivity"
             android:label="@string/title_activity_filebrowser" />
         <activity
-            android:name="com.lxzh123.record.RecordActivity"
+            android:name=".record.RecordActivity"
             android:label="@string/title_activity_record" />
         <activity
-            android:name="com.lxzh123.record1.SoundRecorderActivity"
+            android:name=".record1.SoundRecorderActivity"
             android:clearTaskOnLaunch="true"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="unspecified"
@@ -64,29 +64,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.lxzh123.inputmethod.InputMethodActivity"
+            android:name=".inputmethod.InputMethodActivity"
             android:label="@string/title_activity_inputmethod" />
         <activity
-            android:name="com.lxzh123.location.LocationActivity"
+            android:name=".location.LocationActivity"
             android:label="Location" />
         <activity
-            android:name="com.lxzh123.weather.WeatherActivity"
+            android:name=".weather.WeatherActivity"
             android:label="Weather" />
         <activity
-            android:name="com.lxzh123.ftp.FTPActivity"
+            android:name=".ftp.FTPActivity"
             android:label="FTP" />
         <activity
-            android:name="com.lxzh123.bcreceiver.BCReceiverActivity"
+            android:name=".bcreceiver.BCReceiverActivity"
             android:label="@string/title_activity_bcreceiver" />
 
-        <service android:name="com.lxzh123.bcreceiver.LxzhService" />
+        <service android:name=".bcreceiver.LxzhService" />
 
         <activity
-            android:name="com.lxzh123.bootstart.BootStartActivity"
+            android:name=".bootstart.BootStartActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="BootStart" />
 
-        <receiver android:name="com.lxzh123.bootstart.BootBroadcastReceiver">
+        <receiver android:name=".bootstart.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
 
@@ -95,10 +95,10 @@
         </receiver>
 
         <activity
-            android:name="com.lxzh123.sortalgo.SortActivity"
+            android:name=".sortalgo.SortActivity"
             android:label="SortAlgorithm" />
         <activity
-            android:name="com.lxzh123.findalgo.FindActivity"
+            android:name=".findalgo.FindActivity"
             android:label="FindAlgorithm"/>
     </application>
 
