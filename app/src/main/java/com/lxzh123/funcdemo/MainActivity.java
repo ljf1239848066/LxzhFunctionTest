@@ -15,6 +15,7 @@ import com.lxzh123.funcdemo.ftp.FTPActivity;
 import com.lxzh123.funcdemo.inputmethod.InputMethodActivity;
 import com.lxzh123.funcdemo.location.LocationActivity;
 import com.lxzh123.funcdemo.notification.NotificationActivity;
+import com.lxzh123.funcdemo.processtest.Activity1InMainProcess;
 import com.lxzh123.funcdemo.quickmark.QuickMarkActivity;
 import com.lxzh123.funcdemo.record.RecordActivity;
 import com.lxzh123.funcdemo.record1.SoundRecorderActivity;
@@ -43,7 +44,8 @@ public class MainActivity extends ListActivity{
                 "BCReceiver",
                 "BootStart",
                 "Sort Algo",
-                "Find Algo"};
+                "Find Algo",
+                "Process Test"};
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.main,funcStr);
         this.setListAdapter(adapter);
         this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,6 +97,9 @@ public class MainActivity extends ListActivity{
                         break;
                     case 14:
                         intent.setClass(MainActivity.this, FindActivity.class);
+                        break;
+                    case 15:
+                        intent.setClass(MainActivity.this, Activity1InMainProcess.class);
                         break;
 //		case R.id.btnCycleWheelView:
 //			intent.setClass(MainActivity.this, CycleWheelViewActivity.class);

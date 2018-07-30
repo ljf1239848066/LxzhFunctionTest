@@ -99,7 +99,12 @@
             android:label="SortAlgorithm" />
         <activity
             android:name=".findalgo.FindActivity"
-            android:label="FindAlgorithm"/>
+            android:label="FindAlgorithm" />
+        <activity
+            android:name=".processtest.Activity1InMainProcess" />
+        <activity
+            android:name=".processtest.Activity2InOtherProcess"
+            android:process=":other"/>
     </application>
 
 </manifest>
