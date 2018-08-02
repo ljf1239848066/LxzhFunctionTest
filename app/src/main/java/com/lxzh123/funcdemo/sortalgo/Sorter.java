@@ -416,6 +416,66 @@ public class Sorter {
         return j;
     }
 
+    /**
+     * 快速排序
+     * @param array 待排序的数组
+     * @param asc   是否为升序排序模式 true:升序 false:降序
+     */
+    public static void QuickSort1(int[] array,boolean asc) {
+        int len=array.length;
+        QuickSort1(array, 0 , len-1, asc);
+    }
+
+    private static void QuickSort1(int[] array, int low, int high,boolean asc) {
+        //1,找到递归算法的出口
+        if( low > high) {
+            return;
+        }
+        //2, 存
+        int i = low;
+        int j = high;
+        //3,key
+        int key = array[low];
+        //4，完成一趟排序
+        if(asc) {
+            while (i < j) {
+                //4.1 ，从右往左找到第一个小于key的数
+                while (i < j && array[j] > key) {
+                    j--;
+                }
+                // 4.2 从左往右找到第一个大于key的数
+                while (i < j && array[i] <= key) {
+                    i++;
+                }
+                //4.3 交换
+                if (i < j) {
+                    Swap(array, i, j);
+                }
+            }
+        }else{
+            while (i < j) {
+                //4.1 ，从右往左找到第一个小于key的数
+                while (i < j && array[j] < key) {
+                    j--;
+                }
+                // 4.2 从左往右找到第一个大于key的数
+                while (i < j && array[i] >= key) {
+                    i++;
+                }
+                //4.3 交换
+                if (i < j) {
+                    Swap(array, i, j);
+                }
+            }
+        }
+        // 4.4，调整key的位置
+        Swap(array,i,low);
+        //5, 对key左边的数快排
+        QuickSort1(array, low, i-1, asc );
+        //6, 对key右边的数快排
+        QuickSort1(array, i+1, high, asc);
+    }
+
     public static void CountingSort(int[] array, boolean asc) {
         int len=array.length;
         int maxValue=array[0];

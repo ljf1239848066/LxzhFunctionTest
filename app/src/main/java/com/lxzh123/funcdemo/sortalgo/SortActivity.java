@@ -153,6 +153,20 @@ public class SortActivity extends Activity {
                 tEnd=SystemClock.elapsedRealtime();
                 buf.append("\n快速排序用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
 
+
+                tmp=tmpArray.clone();
+                tStart=SystemClock.elapsedRealtime();
+                Sorter.QuickSort1(tmp,true);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("\n\n快速排序1用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+
+                tmp=tmpArray.clone();
+                tStart=SystemClock.elapsedRealtime();
+                Sorter.QuickSort1(tmp,false);
+                tEnd=SystemClock.elapsedRealtime();
+                buf.append("\n快速排序1用时:"+(tEnd-tStart)+",结果:\n"+Arrays.toString(Arrays.copyOf(tmp,10)));
+
+
                 tvRstSort.setText(buf.toString());
             }
         });
