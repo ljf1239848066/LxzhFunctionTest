@@ -1,18 +1,18 @@
 package com.lxzh123.funcdemo.ftp;
 
-import java.util.Vector;
-
-import org.apache.commons.net.ftp.FTPClient;
-
-import com.lxzh123.funcdemo.R;
-
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import com.lxzh123.funcdemo.R;
+
+import org.apache.commons.net.ftp.FTPClient;
+
+import java.util.Vector;
 
 public class FTPActivity extends Activity {
 	Button btnStart;
@@ -41,7 +41,6 @@ public class FTPActivity extends Activity {
 					}			
 					ftpMan.disconnetFTPServer(ftpClient);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					Log.d("catch", "异常");
 				}

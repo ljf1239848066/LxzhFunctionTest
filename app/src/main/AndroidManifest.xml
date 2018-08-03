@@ -100,11 +100,17 @@
         <activity
             android:name=".findalgo.FindActivity"
             android:label="FindAlgorithm" />
-        <activity
-            android:name=".processtest.Activity1InMainProcess" />
+        <activity android:name=".processtest.Activity1InMainProcess" />
         <activity
             android:name=".processtest.Activity2InOtherProcess"
-            android:process=":other"/>
+            android:process=":other" />
+
+        <service
+            android:name=".socket.SocketServerService"
+            android:exported="false"/>
+
+        <activity android:name=".socket.SocketClientActivity1" />
+        <activity android:name=".socket.SocketClientActivity2" />
     </application>
 
 </manifest>

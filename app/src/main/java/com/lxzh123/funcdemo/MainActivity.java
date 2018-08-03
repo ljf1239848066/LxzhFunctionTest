@@ -19,10 +19,12 @@ import com.lxzh123.funcdemo.processtest.Activity1InMainProcess;
 import com.lxzh123.funcdemo.quickmark.QuickMarkActivity;
 import com.lxzh123.funcdemo.record.RecordActivity;
 import com.lxzh123.funcdemo.record1.SoundRecorderActivity;
-import com.lxzh123.funcdemo.xml.XmlSaveDataActivity;
 import com.lxzh123.funcdemo.sendemail.SendMailActivity;
+import com.lxzh123.funcdemo.socket.SocketClientActivity1;
+import com.lxzh123.funcdemo.socket.SocketClientActivity2;
 import com.lxzh123.funcdemo.sortalgo.SortActivity;
 import com.lxzh123.funcdemo.weather.WeatherActivity;
+import com.lxzh123.funcdemo.xml.XmlSaveDataActivity;
 
 public class MainActivity extends ListActivity{
 
@@ -45,7 +47,9 @@ public class MainActivity extends ListActivity{
                 "BootStart",
                 "Sort Algo",
                 "Find Algo",
-                "Process Test"};
+                "Process Test",
+                "SocketClient1",
+                "SocketClient2"};
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.main,funcStr);
         this.setListAdapter(adapter);
         this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -100,6 +104,12 @@ public class MainActivity extends ListActivity{
                         break;
                     case 15:
                         intent.setClass(MainActivity.this, Activity1InMainProcess.class);
+                        break;
+                    case 16:
+                        intent.setClass(MainActivity.this, SocketClientActivity1.class);
+                        break;
+                    case 17:
+                        intent.setClass(MainActivity.this, SocketClientActivity2.class);
                         break;
 //		case R.id.btnCycleWheelView:
 //			intent.setClass(MainActivity.this, CycleWheelViewActivity.class);
