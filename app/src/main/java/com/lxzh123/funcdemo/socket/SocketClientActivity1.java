@@ -2,6 +2,7 @@ package com.lxzh123.funcdemo.socket;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,8 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lxzh123.funcdemo.R;
+import com.lxzh123.funcdemo.xml.XmlSaveDataActivity;
 
-import java.net.InetAddress;
+import org.apache.log4j.helpers.OptionConverter;
+
+import java.net.InetSocketAddress;
 
 public class SocketClientActivity1 extends Activity {
     private TextView tvReceiveMsg;
@@ -58,6 +62,9 @@ public class SocketClientActivity1 extends Activity {
         }else{
             log=new NoneLog();
         }
+
+
+
         socketServerIntent=new Intent(this,SocketServerService.class);
         startService(socketServerIntent);
         Log.i(TAG,"startService:socketServerIntent");
@@ -76,6 +83,16 @@ public class SocketClientActivity1 extends Activity {
         btDisConnect=(Button)findViewById(R.id.btDisConnect);
         btSend=(Button)findViewById(R.id.btSend);
         log.d(TAG, "onCreate");
+
+        SharedPreferences preferences=this.getSharedPreferences("XmlSaveData.xml",XmlSaveDataActivity.MODE_PRIVATE);
+        String ip=preferences.getString("savedip","");
+        String port=preferences.getString("savedport","");
+        if(ip!=null&&ip!=""){
+            etIP.setText(ip);
+        }
+        if(port!=null&&port!=""){
+            etPort.setText(port);
+        }
     }
 
     public void OnButtonClicked(View view){
@@ -98,7 +115,15 @@ public class SocketClientActivity1 extends Activity {
                         }
                         try {
                             client=new SocketClient();
-                            client.Connect(InetAddress.getLocalHost(), SocketServerService.PORT);
+//                            client.Connect(new InetSocketAddress("localhost",SocketServerService.PORT));
+                            client.Connect(new InetSocketAddress(ip, OptionConverter.toInt(port,SocketServerService.PORT)));
+
+                            SharedPreferences preferences=getSharedPreferences("XmlSaveData.xml", XmlSaveDataActivity.MODE_PRIVATE);
+                            SharedPreferences.Editor editor=preferences.edit();
+                            editor.putString("savedip",ip);
+                            editor.putString("savedport",port);
+                            editor.commit();//存数据
+
                             message.what=0;
                             if(client.getState()){
                                 message.obj="Connect Succeed\n";
@@ -139,7 +164,7 @@ public class SocketClientActivity1 extends Activity {
 
                             Message message=Message.obtain();
                             message.what=0;
-                            message.obj=receive+"\n";
+                            message.obj=receive;
                             handler.sendMessage(message);
                         } catch (Exception ex) {
                             System.out.println(ex.toString());

@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class SocketServerService extends IntentService {
 
     private final static String TAG="SocketServerService";
-    public final static int PORT=34657;
+    public final static int PORT=8080;
 
     private ServerSocket serverSocket;
 
@@ -70,19 +70,29 @@ public class SocketServerService extends IntentService {
             br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             // 用于发送返回信息,可以不需要装饰这么多io流使用缓冲流时发送数据要注意调用.flush()方法
             pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-            while (true) {
-                String str = br.readLine();
-//                tvText.append("Client Socket Message:" + str);
+            System.out.println("start to read data from client:" + socket);
+            int bt=0;
+            char buffer[]=new char[1024];
+            String str;
+            while((bt=br.read(buffer))!=-1){
+                str=new String(buffer,0,bt);
                 System.out.println("Client Socket Message:" + str);
-//                Thread.sleep(1000);
-//                tvText.append("Message Received");
-                str=scanner.next();
-                pw.println("Message Received");
+                pw.println("Message Received:"+str);
                 pw.flush();
-                if(str.equals("exit")){
-                    break;
-                }
             }
+//            while (true) {
+//                String str = br.readLine();
+////                tvText.append("Client Socket Message:" + str);
+//                System.out.println("Client Socket Message:" + str);
+////                Thread.sleep(1000);
+////                tvText.append("Message Received");
+//                str=scanner.next();
+//                pw.println("Message Received");
+//                pw.flush();
+//                if(str.equals("exit")){
+//                    break;
+//                }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
