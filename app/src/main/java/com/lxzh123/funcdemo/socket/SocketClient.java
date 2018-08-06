@@ -46,6 +46,10 @@ public class SocketClient {
         state=client.isConnected();
     }
 
+    public boolean IsConnected(){
+        return client.isConnected();
+    }
+
 //    public String Send(String msg, int timeout) {
 //        String result = "";
 //        if (!msg.equals("") && client != null && client.isConnected()) {

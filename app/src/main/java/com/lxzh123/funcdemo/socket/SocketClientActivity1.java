@@ -141,6 +141,7 @@ public class SocketClientActivity1 extends Activity {
             message.what=1;
             message.obj="请输入服务器Ip和端口号";
         }else{
+            message.what=0;
             try {
                 client=new SocketClient();
 //                            client.Connect(new InetSocketAddress("localhost",SocketServerService.PORT));
@@ -152,7 +153,7 @@ public class SocketClientActivity1 extends Activity {
                 editor.putString("savedport",port);
                 editor.commit();//save data to xml
 
-                message.what=0;
+
                 if(client.getState()){
                     message.obj="Connect Succeed\n";
                 }else{
@@ -160,6 +161,7 @@ public class SocketClientActivity1 extends Activity {
                 }
             } catch (Exception ex) {
                 System.out.println(ex.toString());
+                message.obj="Connect Failed\n";
             }
         }
         handler.sendMessage(message);
@@ -207,7 +209,7 @@ public class SocketClientActivity1 extends Activity {
     }
 
     private void doDisConnect(){
-        if(client!=null){
+        if(client!=null||client.IsConnected()){
             client.Close();
             tvReceiveMsg.append("DisConnected\n");
         }
