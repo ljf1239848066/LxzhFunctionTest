@@ -23,6 +23,8 @@
     <string name="send">Send</string>
     <string name="receive">Receive</string>
     <string name="start">Start</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">DisConnect</string>
     <string name="back">Back</string>
     <string name="next">Next</string>
 
@@ -54,5 +56,9 @@
     <!-- Activity——find -->
     <string name="activity_find_gen">generate random data</string>
     <string name="activity_find_find">Sort</string>
+
+    <!-- Activity——socket -->
+    <string name="msgsend">MSGSEND</string>
+    <string name="msgrecv">MSGRECV</string>
 
 </resources>

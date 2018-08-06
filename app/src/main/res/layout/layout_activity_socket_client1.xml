@@ -32,8 +32,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@id/tvIp"
-                android:hint="10.166.180.141"
-                android:text="10.166.180.141"
                 android:textSize="20dp" />
         </RelativeLayout>
 
@@ -84,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:onClick="OnButtonClicked"
-                android:text="连接"
+                android:text="@string/connect"
                 android:textSize="25dp" />
         </RelativeLayout>
 
@@ -100,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:onClick="OnButtonClicked"
-                android:text="断开"
+                android:text="@string/disconnect"
                 android:textSize="25dp" />
         </RelativeLayout>
     </LinearLayout>
@@ -118,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="5dp"
-            android:text="发送的消息"
+            android:text="@string/msgsend"
             android:textSize="25dp" />
 
         <Button
@@ -127,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:onClick="OnButtonClicked"
-            android:text="发送"
+            android:text="@string/send"
             android:textSize="25dp" />
 
         <EditText
@@ -155,7 +153,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="5dp"
             android:scrollbars="vertical"
-            android:text="接收的消息"
+            android:text="@string/msgrecv"
             android:textSize="20dp" />
 
         <ScrollView

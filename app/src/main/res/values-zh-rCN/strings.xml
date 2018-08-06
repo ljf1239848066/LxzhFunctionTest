@@ -7,6 +7,8 @@
     <string name="send">发送</string>
     <string name="receive">接收</string>
     <string name="start">开始</string>
+    <string name="connect">连接</string>
+    <string name="disconnect">断开</string>
     <string name="back">回退</string>
     <string name="next">下一步</string>
 
@@ -35,4 +37,8 @@
     <!-- Activity——find -->
     <string name="activity_find_gen">生成随机数</string>
     <string name="activity_find_find">查找</string>
+
+    <!-- Activity——socket -->
+    <string name="msgsend">发送的消息</string>
+    <string name="msgrecv">接收的消息</string>
 </resources>
