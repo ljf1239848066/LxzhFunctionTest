@@ -112,28 +112,51 @@ public class SocketClientActivity1 extends Activity {
 
     public void OnButtonClicked(View view){
         log.d(TAG, "OnButtonClicked");
-        switch (view.getId()) {
-            case R.id.btConnect:
-                log.d(TAG, "OnButtonClicked:R.id.btConnect");
-//                doConnect();
-                EventBus.getDefault().post("");
-                break;
-            case R.id.btDisConnect:
-                log.d(TAG, "OnButtonClicked:R.id.btDisConnect");
-                doDisConnect();
-                break;
-            case R.id.btSend:
-                log.d(TAG, "OnButtonClicked:R.id.btSend");
-                doSendMsg();
-                break;
-            default:
-                log.d(TAG, "OnButtonClicked:default");
-                break;
-        }
+//        switch (view.getId()) {
+//            case R.id.btConnect:
+//                log.d(TAG, "OnButtonClicked:R.id.btConnect");
+////                doConnect();
+//                EventBus.getDefault().post("");
+//                break;
+//            case R.id.btDisConnect:
+//                log.d(TAG, "OnButtonClicked:R.id.btDisConnect");
+//                doDisConnect();
+//                break;
+//            case R.id.btSend:
+//                log.d(TAG, "OnButtonClicked:R.id.btSend");
+//                doSendMsg();
+//                break;
+//            default:
+//                log.d(TAG, "OnButtonClicked:default");
+//                break;
+//        }
+        EventBus.getDefault().post(view);
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onMessageEvent(Object obj) {
+        if(obj instanceof View){
+            switch (((View)obj).getId()) {
+                case R.id.btConnect:
+                    log.d(TAG, "OnButtonClicked:R.id.btConnect");
+                    doConnect();
+                    break;
+                case R.id.btDisConnect:
+                    log.d(TAG, "OnButtonClicked:R.id.btDisConnect");
+                    doDisConnect();
+                    break;
+                case R.id.btSend:
+                    log.d(TAG, "OnButtonClicked:R.id.btSend");
+                    doSendMsg();
+                    break;
+                default:
+                    log.d(TAG, "OnButtonClicked:default");
+                    break;
+            }
+        }
+    }
+
+    private void doConnect(){
         final String ip=etIP.getText().toString();
         final String port=etPort.getText().toString();
         Message message=Message.obtain();
@@ -144,7 +167,7 @@ public class SocketClientActivity1 extends Activity {
             message.what=0;
             try {
                 client=new SocketClient();
-//                            client.Connect(new InetSocketAddress("localhost",SocketServerService.PORT));
+//              client.Connect(new InetSocketAddress("localhost",SocketServerService.PORT));
                 client.Connect(new InetSocketAddress(ip, OptionConverter.toInt(port,SocketServerService.PORT)));
 
                 SharedPreferences preferences=getSharedPreferences("XmlSaveData.xml", XmlSaveDataActivity.MODE_PRIVATE);
@@ -167,47 +190,6 @@ public class SocketClientActivity1 extends Activity {
         handler.sendMessage(message);
     }
 
-    private void doConnect(){
-        final String ip=etIP.getText().toString();
-        final String port=etPort.getText().toString();
-
-
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                Message message=Message.obtain();
-                if(ip.equals("")||port.equals("")){
-                    message.what=1;
-                    message.obj="请输入服务器Ip和端口号";
-                    handler.sendMessage(message);
-                    return;
-                }
-                try {
-                    client=new SocketClient();
-//                            client.Connect(new InetSocketAddress("localhost",SocketServerService.PORT));
-                    client.Connect(new InetSocketAddress(ip, OptionConverter.toInt(port,SocketServerService.PORT)));
-
-                    SharedPreferences preferences=getSharedPreferences("XmlSaveData.xml", XmlSaveDataActivity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor=preferences.edit();
-                    editor.putString("savedip",ip);
-                    editor.putString("savedport",port);
-                    editor.commit();//save data to xml
-
-                    message.what=0;
-                    if(client.getState()){
-                        message.obj="Connect Succeed\n";
-                    }else{
-                        message.obj="Connect Failed\n";
-                    }
-                    handler.sendMessage(message);
-                } catch (Exception ex) {
-                    System.out.println(ex.toString());
-                }
-            }
-        }.start();
-    }
-
     private void doDisConnect(){
         if(client!=null||client.IsConnected()){
             client.Close();
@@ -217,31 +199,25 @@ public class SocketClientActivity1 extends Activity {
 
     private void doSendMsg(){
         final String msg=etSend.getText().toString().trim();
+        Message message=Message.obtain();
         if(msg.equals("")){
-            Toast.makeText(getBaseContext(), "请输入要发送的消息!", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if(client==null||!client.getState()){
-            Toast.makeText(getBaseContext(), "请先连接服务器!", Toast.LENGTH_LONG).show();
-            return;
-        }
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    String receive=client.SendAndReceive(msg, 30000);
-
-                    Message message=Message.obtain();
-                    message.what=0;
-                    message.obj=receive;
-                    handler.sendMessage(message);
-                } catch (Exception ex) {
-                    System.out.println(ex.toString());
-                }
-
-                super.run();
+            message.what=1;
+            message.obj="请输入要发送的消息!";
+            handler.sendMessage(message);
+        }else if(client==null||!client.getState()){
+            message.what=1;
+            message.obj="请先连接服务器!";
+        }else{
+            try {
+                String receive=client.SendAndReceive(msg, 30000);
+                message.what=0;
+                message.obj=receive;
+            } catch (Exception ex) {
+                System.out.println(ex.toString());
+                return;
             }
-        }.start();
+        }
+        handler.sendMessage(message);
     }
 
     @Override
