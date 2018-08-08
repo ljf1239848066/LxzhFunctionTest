@@ -70,7 +70,7 @@ public class LocationActivity extends Activity {
                 EventBus.getDefault().post(handler);
                 requestLocationPermissions(this,lp);
                 break;
-            case LocationProviderDisaabled:
+            case LocationProviderDisabled:
 
                 break;
         }
@@ -121,7 +121,7 @@ public class LocationActivity extends Activity {
                 return LocationPermission.LocationProviderEnabledButNotPermit;
             }
         }
-        return LocationPermission.LocationProviderDisaabled;
+        return LocationPermission.LocationProviderDisabled;
     }
 
     private void requestLocationPermissions(Context context,LocationPermission lp){
@@ -130,7 +130,7 @@ public class LocationActivity extends Activity {
             // 没有权限，申请权限。
             ActivityCompat.requestPermissions(LocationActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_CODE);
 //                        Toast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
-        } else if(lp==LocationPermission.LocationProviderDisaabled){
+        } else if(lp==LocationPermission.LocationProviderDisabled){
             Log.e("BRG","系统检测到未开启GPS定位服务");
             Toast.makeText(context, "系统检测到未开启GPS定位服务", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();

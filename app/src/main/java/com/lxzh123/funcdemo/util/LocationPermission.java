@@ -6,5 +6,5 @@ package com.lxzh123.funcdemo.util;
 public enum LocationPermission{
     LocationProviderEnabledAndPermit,
     LocationProviderEnabledButNotPermit,
-    LocationProviderDisaabled
+    LocationProviderDisabled
 }
