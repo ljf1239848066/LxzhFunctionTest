@@ -40,18 +40,21 @@ public class TestUnsafe {
             Log.d(TAG,"Test-6");
             System.out.print(TAG+":1:"+model.getDistance());
             Log.d(TAG,"Test-7-"+model.getTime());
-            Log.d(TAG,"Test-7-"+model.getSpeed());
-            Log.d(TAG,"Test-7-"+model.getDistance());
+            Log.d(TAG,"Test-8-"+model.getSpeed());
+            Log.d(TAG,"Test-9-"+model.getDistance());
             //计算变量 value 在类对象中的偏移量
             long valueOffset = unsafe.objectFieldOffset(TestModel.class.getDeclaredField("speed"));
+            Log.d(TAG,"Test-10-"+valueOffset);
             unsafe.getAndSetInt(model, valueOffset, 100);
-            Log.d(TAG,"Test-8");
+            Log.d(TAG,"Test-11");
             rst.append(TAG+":2:"+model.getDistance());
-            Log.d(TAG,"Test-9-"+model.getDistance());
+            Log.d(TAG,"Test-12-"+model.getDistance());
             System.out.print(TAG+":2:"+model.getDistance());
         }catch (Exception ex){
-            Log.d(TAG,"Test-10");
+            Log.d(TAG,"Test-13");
         }
+        ClassLoader cl;
+
         return rst.toString();
     }
 }
