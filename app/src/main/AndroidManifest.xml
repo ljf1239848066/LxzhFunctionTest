@@ -107,10 +107,11 @@
 
         <service
             android:name=".socket.SocketServerService"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity android:name=".socket.SocketClientActivity1" />
         <activity android:name=".socket.SocketClientActivity2" />
+        <activity android:name=".unsafetest.TestUnsafeActivity"></activity>
     </application>
 
 </manifest>

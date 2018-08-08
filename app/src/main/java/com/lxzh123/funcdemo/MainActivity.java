@@ -23,6 +23,7 @@ import com.lxzh123.funcdemo.sendemail.SendMailActivity;
 import com.lxzh123.funcdemo.socket.SocketClientActivity1;
 import com.lxzh123.funcdemo.socket.SocketClientActivity2;
 import com.lxzh123.funcdemo.sortalgo.SortActivity;
+import com.lxzh123.funcdemo.unsafetest.TestUnsafeActivity;
 import com.lxzh123.funcdemo.weather.WeatherActivity;
 import com.lxzh123.funcdemo.xml.XmlSaveDataActivity;
 
@@ -49,7 +50,8 @@ public class MainActivity extends ListActivity{
                 "Find Algo",
                 "Process Test",
                 "SocketClient1",
-                "SocketClient2"};
+                "SocketClient2",
+                "TestUnsafe"};
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.main,funcStr);
         this.setListAdapter(adapter);
         this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,6 +112,9 @@ public class MainActivity extends ListActivity{
                         break;
                     case 17:
                         intent.setClass(MainActivity.this, SocketClientActivity2.class);
+                        break;
+                    case 18:
+                        intent.setClass(MainActivity.this, TestUnsafeActivity.class);
                         break;
 //		case R.id.btnCycleWheelView:
 //			intent.setClass(MainActivity.this, CycleWheelViewActivity.class);
