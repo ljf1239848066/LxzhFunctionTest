@@ -90,4 +90,5 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
     implementation "org.greenrobot:eventbus:${LIB_EVENTBUS_VERSION}"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation project(':unsafe')
 }
