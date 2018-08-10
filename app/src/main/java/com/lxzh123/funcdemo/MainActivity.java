@@ -20,27 +20,6 @@ public class MainActivity extends ListActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		final String[] funcStr=new String[]{
-//		        "QuickMark",
-//                "SendMail",
-//                "XmlSaveData",
-//                "Notification",
-//                "FileBrowser",
-//                "Record",
-//                "SoundRecorder",
-//                "InputMethod",
-//                "Location",
-//                "Weather",
-//                "FTP",
-//                "BCReceiver",
-//                "BootStart",
-//                "Sort",
-//                "Find",
-//                "Activity1InMainProcess",
-//                "SocketClient1",
-//                "SocketClient2",
-//                "TestUnsafe",
-//                "TestRxJava"};
 
         final String[] activityNames=getAllActivity();
         int len=activityNames.length;
@@ -64,86 +43,6 @@ public class MainActivity extends ListActivity{
                     ex.printStackTrace();
                     return;
                 }
-
-//                switch (position) {
-//                    case 0:
-//                        intent.setClass(MainActivity.this, QuickMarkActivity.class);
-//                        break;
-//                    case 1:
-//                        intent.setClass(MainActivity.this, SendMailActivity.class);
-//                        break;
-//                    case 2:
-//                        intent.setClass(MainActivity.this, XmlSaveDataActivity.class);
-//                        break;
-//                    case 3:
-//                        intent.setClass(MainActivity.this, NotificationActivity.class);
-//                        break;
-//                    case 4:
-//                        intent.setClass(MainActivity.this, FileBrowserActivity.class);
-//                        break;
-//                    case 5:
-//                        intent.setClass(MainActivity.this, RecordActivity.class);
-//                        break;
-//                    case 6:
-//                        intent.setClass(MainActivity.this, SoundRecorderActivity.class);
-//                        break;
-//                    case 7:
-//                        intent.setClass(MainActivity.this, InputMethodActivity.class);
-//                        break;
-//                    case 8:
-//                        intent.setClass(MainActivity.this, LocationActivity.class);
-//                        break;
-//                    case 9:
-//                        intent.setClass(MainActivity.this, WeatherActivity.class);
-//                        break;
-//                    case 10:
-//                        intent.setClass(MainActivity.this, FTPActivity.class);
-//                        break;
-//                    case 11:
-//                        intent.setClass(MainActivity.this, BCReceiverActivity.class);
-//                        break;
-//                    case 12:
-//                        intent.setClass(MainActivity.this, BootStartActivity.class);
-//                        break;
-//                    case 13:
-//                        intent.setClass(MainActivity.this, SortActivity.class);
-//                        break;
-//                    case 14:
-//                        intent.setClass(MainActivity.this, FindActivity.class);
-//                        break;
-//                    case 15:
-//                        intent.setClass(MainActivity.this, Activity1InMainProcessActivity.class);
-//                        break;
-//                    case 16:
-//                        intent.setClass(MainActivity.this, SocketClient1Activity.class);
-//                        break;
-//                    case 17:
-//                        intent.setClass(MainActivity.this, SocketClient2Activity.class);
-//                        break;
-//                    case 18:
-//                        intent.setClass(MainActivity.this, TestUnsafeActivity.class);
-//                        break;
-//                    case 19:
-//                        intent.setClass(MainActivity.this, TestRxJavaActivity.class);
-//                        break;
-////		case R.id.btnCycleWheelView:
-////			intent.setClass(MainActivity.this, CycleWheelViewActivity.class);
-////			break;
-////		case R.id.btnShapeView:
-////			intent.setClass(MainActivity.this, ShapeViewActivity.class);
-////			break;
-////		case R.id.btnSeekbar:
-////			intent.setClass(MainActivity.this, SeekbarActivity.class);
-////			break;
-////		case R.id.btnRadioButton:
-////			intent.setClass(MainActivity.this, RadioButtonActivity.class);
-////			break;
-////		case R.id.btnViewPager:
-////			intent.setClass(MainActivity.this, ViewPagerActivity.class);
-////			break;
-//                    default:
-//                        return;
-//                }
                 startActivity(intent);
             }
         });
