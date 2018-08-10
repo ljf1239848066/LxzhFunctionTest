@@ -58,15 +58,6 @@ public class MainActivity extends ListActivity{
                         classNameList.add(name);
                 }
             }
-//            DexFile df=new DexFile(this.getPackageCodePath());
-//            Enumeration<String> enumeration = df.entries();//获取df中的元素  这里包含了所有可执行的类名 该类名包含了包名+类名的方式
-//            while (enumeration.hasMoreElements()) {//遍历
-//                String className = (String) enumeration.nextElement();
-//
-//                if (className.endsWith(ACTIVITYTAG)&&!className.contains("Main")) {//在当前所有可执行的类里面查找包含有该包名的所有类
-//                    classNameList.add(className);
-//                }
-//            }
         }catch (Exception ex){
 
         }

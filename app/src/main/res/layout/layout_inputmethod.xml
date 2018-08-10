@@ -5,7 +5,7 @@
     android:layout_height="wrap_content" >
 
     <EditText
-        android:id="@+id/et"
+        android:id="@+id/etInput"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
@@ -31,6 +31,7 @@
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:onClick="OnInputButtonClicked"
             android:text="1" />
 
         <Button
@@ -39,6 +40,7 @@
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/btn1"
+            android:onClick="OnInputButtonClicked"
             android:text="2" />
 
         <Button
@@ -47,6 +49,7 @@
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/btn2"
+            android:onClick="OnInputButtonClicked"
             android:text="3" />
 
         <Button
@@ -55,6 +58,7 @@
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/btn3"
+            android:onClick="OnInputButtonClicked"
             android:text="." />
 
         <Button
@@ -63,6 +67,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btn1"
             android:layout_alignParentLeft="true"
+            android:onClick="OnInputButtonClicked"
             android:text="4" />
 
         <Button
@@ -71,6 +76,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btn2"
             android:layout_toRightOf="@id/btn4"
+            android:onClick="OnInputButtonClicked"
             android:text="5" />
 
         <Button
@@ -79,6 +85,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btn3"
             android:layout_toRightOf="@id/btn5"
+            android:onClick="OnInputButtonClicked"
             android:text="6" />
 
         <Button
@@ -87,6 +94,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btnpoint"
             android:layout_toRightOf="@id/btn6"
+            android:onClick="OnInputButtonClicked"
             android:text="0" />
 
         <Button
@@ -95,6 +103,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btn4"
             android:layout_alignParentLeft="true"
+            android:onClick="OnInputButtonClicked"
             android:text="7" />
 
         <Button
@@ -103,6 +112,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btn5"
             android:layout_toRightOf="@id/btn7"
+            android:onClick="OnInputButtonClicked"
             android:text="8" />
 
         <Button
@@ -111,6 +121,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btn6"
             android:layout_toRightOf="@id/btn8"
+            android:onClick="OnInputButtonClicked"
             android:text="9" />
 
         <Button
@@ -119,6 +130,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btn0"
             android:layout_toRightOf="@id/btn9"
+            android:onClick="OnInputButtonClicked"
             android:text="-" />
 
         <Button
