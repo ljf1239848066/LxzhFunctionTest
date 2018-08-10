@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.lxzh123.funcdemo.R;
 
-public class Activity2InOtherProcess extends Activity {
+public class Activity2InOtherProcessActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

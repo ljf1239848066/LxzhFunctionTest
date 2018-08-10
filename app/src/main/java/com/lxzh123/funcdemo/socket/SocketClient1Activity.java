@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.InetSocketAddress;
 
-public class SocketClientActivity1 extends Activity {
+public class SocketClient1Activity extends Activity {
     private TextView tvReceiveMsg;
     private EditText etIP;
     private EditText etPort;
@@ -38,7 +38,7 @@ public class SocketClientActivity1 extends Activity {
     private Intent socketServerIntent;
     private SocketClient client;
 
-    private final static String TAG="SocketClientActivity1";
+    private final static String TAG="SocketClient1Activity";
 
     private Handler handler=new Handler(){
 

@@ -15,13 +15,14 @@ import com.lxzh123.funcdemo.ftp.FTPActivity;
 import com.lxzh123.funcdemo.inputmethod.InputMethodActivity;
 import com.lxzh123.funcdemo.location.LocationActivity;
 import com.lxzh123.funcdemo.notification.NotificationActivity;
-import com.lxzh123.funcdemo.processtest.Activity1InMainProcess;
+import com.lxzh123.funcdemo.processtest.Activity1InMainProcessActivity;
 import com.lxzh123.funcdemo.quickmark.QuickMarkActivity;
 import com.lxzh123.funcdemo.record.RecordActivity;
 import com.lxzh123.funcdemo.record1.SoundRecorderActivity;
+import com.lxzh123.funcdemo.rxjavatest.TestRxJavaActivity;
 import com.lxzh123.funcdemo.sendemail.SendMailActivity;
-import com.lxzh123.funcdemo.socket.SocketClientActivity1;
-import com.lxzh123.funcdemo.socket.SocketClientActivity2;
+import com.lxzh123.funcdemo.socket.SocketClient1Activity;
+import com.lxzh123.funcdemo.socket.SocketClient2Activity;
 import com.lxzh123.funcdemo.sortalgo.SortActivity;
 import com.lxzh123.funcdemo.unsafetest.TestUnsafeActivity;
 import com.lxzh123.funcdemo.weather.WeatherActivity;
@@ -35,23 +36,24 @@ public class MainActivity extends ListActivity{
 		String[] funcStr=new String[]{
 		        "QuickMark",
                 "SendMail",
-                "SaveDataByXml",
+                "XmlSaveData",
                 "Notification",
                 "FileBrowser",
                 "Record",
-                "Record1",
+                "SoundRecorder",
                 "InputMethod",
                 "Location",
                 "Weather",
                 "FTP",
                 "BCReceiver",
                 "BootStart",
-                "Sort Algo",
-                "Find Algo",
-                "Process Test",
+                "Sort",
+                "Find",
+                "Activity1InMainProcess",
                 "SocketClient1",
                 "SocketClient2",
-                "TestUnsafe"};
+                "TestUnsafe",
+                "TestRxJava"};
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.main,funcStr);
         this.setListAdapter(adapter);
         this.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,16 +107,19 @@ public class MainActivity extends ListActivity{
                         intent.setClass(MainActivity.this, FindActivity.class);
                         break;
                     case 15:
-                        intent.setClass(MainActivity.this, Activity1InMainProcess.class);
+                        intent.setClass(MainActivity.this, Activity1InMainProcessActivity.class);
                         break;
                     case 16:
-                        intent.setClass(MainActivity.this, SocketClientActivity1.class);
+                        intent.setClass(MainActivity.this, SocketClient1Activity.class);
                         break;
                     case 17:
-                        intent.setClass(MainActivity.this, SocketClientActivity2.class);
+                        intent.setClass(MainActivity.this, SocketClient2Activity.class);
                         break;
                     case 18:
                         intent.setClass(MainActivity.this, TestUnsafeActivity.class);
+                        break;
+                    case 19:
+                        intent.setClass(MainActivity.this, TestRxJavaActivity.class);
                         break;
 //		case R.id.btnCycleWheelView:
 //			intent.setClass(MainActivity.this, CycleWheelViewActivity.class);

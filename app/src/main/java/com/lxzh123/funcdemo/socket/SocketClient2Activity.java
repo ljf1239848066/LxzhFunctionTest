@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.lxzh123.funcdemo.R;
 
-public class SocketClientActivity2 extends Activity {
+public class SocketClient2Activity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

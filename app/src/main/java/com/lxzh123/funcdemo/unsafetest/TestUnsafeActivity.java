@@ -17,5 +17,7 @@ public class TestUnsafeActivity extends Activity {
 
         tvUnsafeInfo=(TextView)findViewById(R.id.tvUnsafeInfo);
         tvUnsafeInfo.setText(TestUnsafe.Test());
+
+
     }
 }

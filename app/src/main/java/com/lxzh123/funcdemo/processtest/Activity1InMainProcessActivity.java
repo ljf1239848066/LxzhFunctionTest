@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.lxzh123.funcdemo.R;
 
-public class Activity1InMainProcess extends Activity {
+public class Activity1InMainProcessActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class Activity1InMainProcess extends Activity {
         btnStart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Activity1InMainProcess.this,Activity2InOtherProcess.class);
+                Intent intent=new Intent(Activity1InMainProcessActivity.this,Activity2InOtherProcessActivity.class);
                 startActivity(intent);
             }
         });
