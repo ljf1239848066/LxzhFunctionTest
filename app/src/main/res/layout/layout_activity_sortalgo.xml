@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvOrigArray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tvOrigArray"
+            android:text="@string/activity_sort_sort" />
+
+        <Button
+            android:id="@+id/btnGenRandData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/btnSort"
+            android:layout_below="@id/tvOrigArray"
+            android:text="@string/activity_sort_gen" />
+
+        <EditText
+            android:id="@+id/etArrCnt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvOrigArray"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/btnGenRandData" />
+
+        <TextView
+            android:id="@+id/tvRst_Sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etArrCnt"/>
+
+    </RelativeLayout>
+</ScrollView>

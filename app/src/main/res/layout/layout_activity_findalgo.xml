@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvOrigArray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnFind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tvOrigArray"
+            android:text="@string/activity_find_find" />
+
+        <Button
+            android:id="@+id/btnGenRandData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/btnFind"
+            android:layout_below="@id/tvOrigArray"
+            android:text="@string/activity_find_gen" />
+
+        <LinearLayout
+            android:id="@+id/llInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:weightSum="1.0"
+            android:layout_below="@id/tvOrigArray"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/btnGenRandData"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etArrCnt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"/>
+            <EditText
+                android:id="@+id/etFindVal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvRstFind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llInput"/>
+
+    </RelativeLayout>
+</ScrollView>
