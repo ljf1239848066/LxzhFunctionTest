@@ -5,18 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".rxjavatest.TestRxJavaActivity">
-    <TextView
-        android:id="@+id/tvLog"
+    <ScrollView
+        android:id="@+id/svLogLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="500dp"/>
+        android:layout_height="500dp"
+        android:scrollbars="vertical">
+        <TextView
+            android:id="@+id/tvLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
 
     <SeekBar
         android:id="@+id/pbProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLog"
+        app:layout_constraintTop_toBottomOf="@+id/svLogLayout"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <SeekBar
+        android:id="@+id/pbProgress1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pbProgress"
         tools:layout_editor_absoluteX="0dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -8,12 +8,27 @@ import android.widget.TextView;
 
 import com.lxzh123.funcdemo.R;
 
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Completable;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableObserver;
+import io.reactivex.CompletableOnSubscribe;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.Maybe;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
+import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class TestRxJavaActivity extends Activity {
@@ -21,13 +36,16 @@ public class TestRxJavaActivity extends Activity {
     private final static String TAG="TestRxJavaActivity";
     private TextView tvLog;
     private SeekBar seekBar;
+    private SeekBar seekBar1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_rx_java);
         tvLog=(TextView)findViewById(R.id.tvLog);
         seekBar=(SeekBar)findViewById(R.id.pbProgress);
+        seekBar1=(SeekBar)findViewById(R.id.pbProgress1);
         seekBar.setMax(100);
+        seekBar1.setMax(100);
 
         // 观察者
         Observer<String> observer=new Observer<String>() {
@@ -138,6 +156,91 @@ public class TestRxJavaActivity extends Activity {
             public void onComplete() {
                 Log.d(TAG,"observable2.subscribe:onComplete");
                 seekBar.setProgress(100);
+            }
+        });
+
+        Flowable.just("Hello Flowable just\n")
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        tvLog.append("Flowable.just:accept:"+s);
+                    }
+                });
+        Flowable.create(new FlowableOnSubscribe<String>() {
+            @Override
+            public void subscribe(FlowableEmitter<String> emitter) throws Exception {
+                emitter.onNext("Hello Flowable create-onNext1\n");
+                emitter.onNext("Hello Flowable create-onNext2\n");
+                emitter.onComplete();
+            }
+        },BackpressureStrategy.BUFFER).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                tvLog.append("Flowable.create:accept:"+s);
+            }
+        });
+        Single.just("Hello Single just\n")
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        tvLog.append("Single.just:accept:+"+s);
+                    }
+                });
+        Single.create(new SingleOnSubscribe<String>() {
+            @Override
+            public void subscribe(SingleEmitter<String> emitter) throws Exception {
+                emitter.onSuccess("Hello Single create-onSuccess1\n");
+                emitter.onSuccess("Hello Single create-onSuccess2\n");//不执行
+            }
+        }).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                tvLog.append("Single.create:accept:"+s);
+            }
+        });
+        //Completable 无just
+        Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(CompletableEmitter emitter) throws Exception {
+                emitter.onComplete();
+            }
+        }).subscribe(new CompletableObserver() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                tvLog.append("Completable.create:onSubscribe\n");
+            }
+
+            @Override
+            public void onComplete() {
+                tvLog.append("Completable.create:onComplete\n");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                tvLog.append("Completable.create:onError\n");
+            }
+        });
+        Maybe.just("Hello Maybe just\n")
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        tvLog.append("Maybe.just:accept:"+s);
+                    }
+                });
+        Maybe.create(new MaybeOnSubscribe<String>() {
+            @Override
+            public void subscribe(MaybeEmitter<String> emitter) throws Exception {
+                emitter.onSuccess("Maybe.create:onSuccess\n");
+            }
+        }).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                tvLog.append("Maybe.create:accept:" + s);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                tvLog.append("Maybe.create:Throwable:accept:" + throwable.getMessage());
             }
         });
     }
