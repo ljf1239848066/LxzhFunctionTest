@@ -159,11 +159,45 @@ public class TestRxJavaActivity extends Activity {
             }
         });
 
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                for(int i=0;i<10;i++){
+                    emitter.onNext(i);
+                }
+            }
+        }).subscribe(new Observer<Integer>() {
+            private Disposable disposable;
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                this.disposable=d;
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                tvLog.append("Observable.create.subscribe.onNext:i="+integer+"\n");
+                if(integer==5){
+                    disposable.dispose();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                tvLog.append("Observable.create.subscribe.onComplete:\n");
+            }
+        });
+
         Flowable.just("Hello Flowable just\n")
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        tvLog.append("Flowable.just:accept:"+s);
+                        tvLog.append("Flowable.just:accept:" + s);
                     }
                 });
         Flowable.create(new FlowableOnSubscribe<String>() {
@@ -243,5 +277,6 @@ public class TestRxJavaActivity extends Activity {
                 tvLog.append("Maybe.create:Throwable:accept:" + throwable.getMessage());
             }
         });
+
     }
 }
