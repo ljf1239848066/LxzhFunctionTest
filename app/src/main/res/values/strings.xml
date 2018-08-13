@@ -15,6 +15,11 @@
     <string name="notification">click to view</string>
     <string name="title_activity_bcreceiver">LxzhBCReceiver</string>
     <string name="title_activity_sort">LxzhSortAlgo</string>
+    <string name="title_activity_find">LxzhFindAlgo</string>
+    <string name="title_activity_process">ProcessTest</string>
+    <string name="title_activity_socket">SocketDemo</string>
+    <string name="title_activity_unsafe">UseUnsafe</string>
+    <string name="title_activity_rxjava">RxJavaDemo</string>
 
     <string name="title">Title</string>
     <string name="content">Content</string>

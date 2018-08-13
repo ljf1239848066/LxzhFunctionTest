@@ -101,19 +101,30 @@
         <activity
             android:name=".findalgo.FindActivity"
             android:label="FindAlgorithm" />
-        <activity android:name=".processtest.Activity1InMainProcessActivity" />
+        <activity
+            android:name=".processtest.Activity1InMainProcessActivity"
+            android:label="@string/title_activity_process"/>
         <activity
             android:name=".processtest.Activity2InOtherProcessActivity"
-            android:process=":other" />
-
+            android:process=":other"
+            android:label="@string/title_activity_process"/>
         <service
             android:name=".socket.SocketServerService"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/title_activity_socket"/>
 
-        <activity android:name=".socket.SocketClient1Activity" />
-        <activity android:name=".socket.SocketClient2Activity" />
-        <activity android:name=".unsafetest.TestUnsafeActivity" />
-        <activity android:name=".rxjavatest.TestRxJavaActivity"></activity>
+        <activity
+            android:name=".socket.SocketClient1Activity"
+            android:label="@string/title_activity_socket"/>
+        <activity
+            android:name=".socket.SocketClient2Activity"
+            android:label="@string/title_activity_socket"/>
+        <activity
+            android:name=".unsafetest.TestUnsafeActivity"
+            android:label="@string/title_activity_unsafe"/>
+        <activity
+            android:name=".rxjavatest.TestRxJavaActivity"
+            android:label="@string/title_activity_rxjava"/>
     </application>
 
 </manifest>
