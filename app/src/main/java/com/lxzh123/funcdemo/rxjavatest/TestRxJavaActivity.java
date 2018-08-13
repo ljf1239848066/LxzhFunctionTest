@@ -33,8 +33,10 @@ import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 public class TestRxJavaActivity extends Activity {
@@ -43,6 +45,9 @@ public class TestRxJavaActivity extends Activity {
     private TextView tvLog;
     private SeekBar seekBar;
     private SeekBar seekBar1;
+
+    private Disposable mIntervalDisposable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -198,6 +203,43 @@ public class TestRxJavaActivity extends Activity {
                 tvLog.append("Observable.create.subscribe.onComplete:\n");
             }
         });
+        //map
+        Observable.just(1,2,3)
+                .map(new Function<Integer, String>() {
+                    @Override
+                    public String apply(Integer integer) throws Exception {
+                        return "map:"+integer;
+                    }
+                })
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        tvLog.append("Observable.map.accept:s="+s+"\n");
+                    }
+                });
+        //zip
+        Observable.zip(Observable.just("A", "B", "C"), Observable.just(1, 2, 3, 4, 5), new BiFunction<String, Integer, String>() {
+            @Override
+            public String apply(String s, Integer integer) throws Exception {
+                return s+integer;
+            }
+        }).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                tvLog.append("Observable.zip.accept:s="+s+"\n");
+            }
+        });
+
+        //concat
+        Observable.concat(Observable.just(1,2,3), Observable.just(4,5))
+                .subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                tvLog.append("Observable.concat.accept:i="+integer+"\n");
+            }
+        });
+
+        //flatMap
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
@@ -220,6 +262,7 @@ public class TestRxJavaActivity extends Activity {
                 tvLog.append("Observable.create.accept:s="+s+"\n");
             }
         });
+        //concatMap
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
@@ -242,6 +285,65 @@ public class TestRxJavaActivity extends Activity {
                 tvLog.append("Observable.create.accept:s="+s+"\n");
             }
         });
+        //distinct
+        Observable.just(1,1,3,2,3)
+                .distinct()
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        tvLog.append("Observable.distinct.accept:i="+integer+"\n");
+                    }
+                });
+        //filter
+        Observable.just(1,1,3,2,3)
+                .filter(new Predicate<Integer>() {
+                    @Override
+                    public boolean test(Integer integer) throws Exception {
+                        return integer<2;
+                    }
+                })
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        tvLog.append("Observable.filter.accept:i="+integer+"\n");
+                    }
+                });
+        //buffer
+        Observable.just(1,2,3,4,5)
+                .buffer(2,2)
+                .subscribe(new Consumer<List<Integer>>() {
+                    @Override
+                    public void accept(List<Integer> list) throws Exception {
+                        tvLog.append("Observable.buffer.accept:i="+list.toString()+"\n");
+                    }
+                });
+        //timer
+        Observable.timer(2,TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        tvLog.append("Observable.timer.accept:aLong="+aLong+"\n");
+                    }
+                });
+        //interval
+        mIntervalDisposable=Observable.interval(2,3,TimeUnit.SECONDS)
+                .filter(new Predicate<Long>() {
+                    @Override
+                    public boolean test(Long aLong) throws Exception {
+                        return aLong<10;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        tvLog.append("Observable.interval.accept:aLong="+aLong+"\n");
+                    }
+                });
+        //
 
         Flowable.just("Hello Flowable just\n")
                 .subscribe(new Consumer<String>() {
@@ -328,5 +430,11 @@ public class TestRxJavaActivity extends Activity {
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
     }
 }
