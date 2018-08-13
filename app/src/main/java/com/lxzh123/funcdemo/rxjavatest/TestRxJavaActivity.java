@@ -10,6 +10,7 @@ import com.lxzh123.funcdemo.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.BackpressureStrategy;
@@ -47,6 +48,7 @@ public class TestRxJavaActivity extends Activity {
     private SeekBar seekBar1;
 
     private Disposable mIntervalDisposable;
+    private static int index=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,7 +205,7 @@ public class TestRxJavaActivity extends Activity {
                 tvLog.append("Observable.create.subscribe.onComplete:\n");
             }
         });
-        //map
+        //map Observable类型映射
         Observable.just(1,2,3)
                 .map(new Function<Integer, String>() {
                     @Override
@@ -217,7 +219,7 @@ public class TestRxJavaActivity extends Activity {
                         tvLog.append("Observable.map.accept:s="+s+"\n");
                     }
                 });
-        //zip
+        //zip 两个Observable指定索引事件合并为一个事件(二取小)
         Observable.zip(Observable.just("A", "B", "C"), Observable.just(1, 2, 3, 4, 5), new BiFunction<String, Integer, String>() {
             @Override
             public String apply(String s, Integer integer) throws Exception {
@@ -230,7 +232,7 @@ public class TestRxJavaActivity extends Activity {
             }
         });
 
-        //concat
+        //concat 合并两个Observable, B Observable追加到A Observable后面
         Observable.concat(Observable.just(1,2,3), Observable.just(4,5))
                 .subscribe(new Consumer<Integer>() {
             @Override
@@ -285,7 +287,7 @@ public class TestRxJavaActivity extends Activity {
                 tvLog.append("Observable.create.accept:s="+s+"\n");
             }
         });
-        //distinct
+        //distinct 去重
         Observable.just(1,1,3,2,3)
                 .distinct()
                 .subscribe(new Consumer<Integer>() {
@@ -294,7 +296,7 @@ public class TestRxJavaActivity extends Activity {
                         tvLog.append("Observable.distinct.accept:i="+integer+"\n");
                     }
                 });
-        //filter
+        //filter 基于条件过滤
         Observable.just(1,1,3,2,3)
                 .filter(new Predicate<Integer>() {
                     @Override
@@ -317,7 +319,7 @@ public class TestRxJavaActivity extends Activity {
                         tvLog.append("Observable.buffer.accept:i="+list.toString()+"\n");
                     }
                 });
-        //timer
+        //timer 延时发送Observable
         Observable.timer(2,TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -327,7 +329,7 @@ public class TestRxJavaActivity extends Activity {
                         tvLog.append("Observable.timer.accept:aLong="+aLong+"\n");
                     }
                 });
-        //interval
+        //interval 定时发送Observable, 主线程退出时需要销毁
         mIntervalDisposable=Observable.interval(2,3,TimeUnit.SECONDS)
                 .filter(new Predicate<Long>() {
                     @Override
@@ -361,6 +363,158 @@ public class TestRxJavaActivity extends Activity {
                         tvLog.append("Observable.take.accept:i="+integer+"\n");
                     }
                 });
+        //debounce 去除发送频率过快的项
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                // send events with simulated time wait
+                emitter.onNext(1); // skip
+                Thread.sleep(400);
+                emitter.onNext(2); // deliver
+                Thread.sleep(505);
+                emitter.onNext(3); // skip
+                Thread.sleep(100);
+                emitter.onNext(4); // deliver
+                Thread.sleep(605);
+                emitter.onNext(5); // deliver
+                Thread.sleep(510);
+                emitter.onComplete();
+            }
+        }).debounce(500,TimeUnit.SECONDS)
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                tvLog.append("Observable.debounce.accept:i="+integer+"\n");
+            }
+        });
+        //defer 基于已有的Observable产生新的Observable 如果没有被订阅，就不会产生新的 Observable。
+        Observable.defer(new Callable<ObservableSource<Integer>>() {
+            @Override
+            public ObservableSource<Integer> call() throws Exception {
+                return Observable.just(1,2,3);
+            }
+        }).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                tvLog.append("Observable.defer.accept:i="+integer+"\n");
+            }
+        });
+        //last 取出可观察到的最后一个值 或者如果没有可观察结果时返回last指定的默认值
+        Observable.just(1,2,3,4)
+                .last(5)
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        tvLog.append("Observable.last.accept:i="+integer+"\n");
+                    }
+                });
+        Observable.just(1,2,3)
+                .filter(new Predicate<Integer>() {
+                    @Override
+                    public boolean test(Integer integer) throws Exception {
+                        return integer>3;
+                    }
+                })
+                .last(5)
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        tvLog.append("Observable.last(filter result=none).accept:i="+integer+"\n");
+                    }
+                });
+        //merge 合并多个Observable 不保证顺序
+        Observable.merge(Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                emitter.onNext(1);
+                Thread.sleep(300);
+                emitter.onNext(2);
+                Thread.sleep(300);
+                emitter.onNext(3);
+                Thread.sleep(300);
+            }
+        }),Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                emitter.onNext(4);
+                emitter.onNext(5);
+                Thread.sleep(400);
+                emitter.onNext(6);
+                Thread.sleep(400);
+            }
+        })).subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                tvLog.append("Observable.merge(with delay).accept:i="+integer+"\n");
+            }
+        });
+        Observable.merge(Observable.just(1,2),Observable.just(3,4),Observable.just(5,6))
+        .subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                tvLog.append("Observable.merge.accept:i="+integer+"\n");
+            }
+        });
+        //reduce 每次用一个方法处理一个值 从前两个开始
+        // i1=1 i2=2 i3=5 则:
+        // a) apply i12=i1+i2=3     accept i12=3
+        // b) apply i23=i12+i3=8    accept i23=8
+        Observable.just(1,2,5)
+        .reduce(new BiFunction<Integer, Integer, Integer>() {
+            @Override
+            public Integer apply(Integer i1, Integer i2) throws Exception {
+                tvLog.append("Observable.reduce.apply:i1="+i1+",i2="+i2+"\n");
+                return i1+i2;
+            }
+        })
+        .subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                tvLog.append("Observable.reduce.accept:i="+integer+"\n");
+            }
+        });
+        //scan 每次用一个方法处理一个值 从第一个开始
+        // i1=1 i2=2 i3=5 则:
+        // a)                       accept i1
+        // b) apply i12=i1+i2       accept i12=3
+        // c) apply i23=i12+i3=3+5  accept i23=8
+        Observable.just(1,2,5)
+                .scan(new BiFunction<Integer, Integer, Integer>() {
+                    @Override
+                    public Integer apply(Integer i1, Integer i2) throws Exception {
+                        tvLog.append("Observable.scan.apply:i1="+i1+",i2="+i2+"\n");
+                        return i1+i2;
+                    }
+                })
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        tvLog.append("Observable.scan.accept:i="+integer+"\n");
+                    }
+                });
+        //window 将一个Observable按照指定窗口划分为一个个小的Observable
+        index=0;
+        Observable.just(1,2,3,4,5,6,7)
+                .window(3)
+                .subscribe(new Consumer<Observable<Integer>>() {
+                    @Override
+                    public void accept(Observable<Integer> integerObservable) throws Exception {
+                        index++;
+                        tvLog.append("Observable.window.accept:iDx="+ index+"\n");
+                        integerObservable.subscribe(new Consumer<Integer>() {
+                            @Override
+                            public void accept(Integer integer) throws Exception {
+                                tvLog.append("Observable.window.accept:iDx="+ index+",i="+integer+"\n");
+                            }
+                        });
+                    }
+                });
+
+
 
         Flowable.just("Hello Flowable just\n")
                 .subscribe(new Consumer<String>() {
