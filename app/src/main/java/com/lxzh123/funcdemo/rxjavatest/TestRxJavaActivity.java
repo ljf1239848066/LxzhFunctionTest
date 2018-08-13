@@ -8,6 +8,10 @@ import android.widget.TextView;
 
 import com.lxzh123.funcdemo.R;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
@@ -22,6 +26,7 @@ import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
@@ -29,6 +34,7 @@ import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class TestRxJavaActivity extends Activity {
@@ -190,6 +196,50 @@ public class TestRxJavaActivity extends Activity {
             @Override
             public void onComplete() {
                 tvLog.append("Observable.create.subscribe.onComplete:\n");
+            }
+        });
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+            }
+        }).flatMap(new Function<Integer, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(Integer interger) throws Exception {
+                List<String> list=new ArrayList<>();
+                for(int i=0;i<3;i++){
+                    list.add("flatMap:i="+i+",int="+interger);
+                }
+                return Observable.fromIterable(list).delay(100, TimeUnit.MILLISECONDS);
+            }
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                tvLog.append("Observable.create.accept:s="+s+"\n");
+            }
+        });
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+            }
+        }).concatMap(new Function<Integer, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(Integer interger) throws Exception {
+                List<String> list=new ArrayList<>();
+                for(int i=0;i<3;i++){
+                    list.add("concatMap:i="+i+",int="+interger);
+                }
+                return Observable.fromIterable(list).delay(100, TimeUnit.MILLISECONDS);
+            }
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                tvLog.append("Observable.create.accept:s="+s+"\n");
             }
         });
 

@@ -117,9 +117,6 @@
             android:name=".socket.SocketClient1Activity"
             android:label="@string/title_activity_socket"/>
         <activity
-            android:name=".socket.SocketClient2Activity"
-            android:label="@string/title_activity_socket"/>
-        <activity
             android:name=".unsafetest.TestUnsafeActivity"
             android:label="@string/title_activity_unsafe"/>
         <activity
