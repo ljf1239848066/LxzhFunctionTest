@@ -343,7 +343,24 @@ public class TestRxJavaActivity extends Activity {
                         tvLog.append("Observable.interval.accept:aLong="+aLong+"\n");
                     }
                 });
-        //
+        //skip 跳过几个事件
+        Observable.just(1,2,3,4)
+                .skip(2)
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        tvLog.append("Observable.skip.accept:i="+integer+"\n");
+                    }
+                });
+        //take 执行指定个数的事件
+        Observable.just(1,2,3,4)
+                .take(2)
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        tvLog.append("Observable.take.accept:i="+integer+"\n");
+                    }
+                });
 
         Flowable.just("Hello Flowable just\n")
                 .subscribe(new Consumer<String>() {
@@ -435,6 +452,6 @@ public class TestRxJavaActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        
+
     }
 }
