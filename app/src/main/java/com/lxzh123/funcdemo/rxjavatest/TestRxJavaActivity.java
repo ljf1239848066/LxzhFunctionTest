@@ -227,6 +227,15 @@ public class TestRxJavaActivity extends Activity {
                         tvLog.append("Observable.map.accept:s="+s+"\n");
                     }
                 });
+        //cast Observable类型转换
+        Observable.just(1,2,3)
+                .cast(String.class)
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        tvLog.append("Observable.cast.accept:s="+s+"\n");
+                    }
+                });
         //zip 两个Observable指定索引事件合并为一个事件(二取小)
         Observable.zip(Observable.just("A", "B", "C"), Observable.just(1, 2, 3, 4, 5), new BiFunction<String, Integer, String>() {
             @Override
