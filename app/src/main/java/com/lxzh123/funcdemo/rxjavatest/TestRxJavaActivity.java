@@ -38,6 +38,7 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 
 public class TestRxJavaActivity extends Activity {
@@ -229,11 +230,11 @@ public class TestRxJavaActivity extends Activity {
                 });
         //cast Observable类型转换
         Observable.just(1,2,3)
-                .cast(String.class)
-                .subscribe(new Consumer<String>() {
+                .cast(Object.class)
+                .subscribe(new Consumer<Object>() {
                     @Override
-                    public void accept(String s) throws Exception {
-                        tvLog.append("Observable.cast.accept:s="+s+"\n");
+                    public void accept(Object o) throws Exception {
+                        tvLog.append("Observable.cast.accept:o="+o+"\n");
                     }
                 });
         //zip 两个Observable指定索引事件合并为一个事件(二取小)
@@ -539,7 +540,26 @@ public class TestRxJavaActivity extends Activity {
                         });
                     }
                 });
-
+        //groupBy
+        Observable.just(1,2,3)
+                .groupBy(new Function<Integer, String>() {
+                    @Override
+                    public String apply(Integer integer) throws Exception {
+                        return integer+"";
+                    }
+                })
+                .subscribe(new Consumer<GroupedObservable<String, Integer>>() {
+                    @Override
+                    public void accept(GroupedObservable<String, Integer> strInt) throws Exception {
+                        final String key=strInt.getKey();
+                        strInt.subscribe(new Consumer<Integer>() {
+                            @Override
+                            public void accept(Integer integer) throws Exception {
+                                tvLog.append("Observable.groupBy.acceot:s="+key+",value="+integer+"\n");
+                            }
+                        });
+                    }
+                });
 
 
         Flowable.just("Hello Flowable just\n")
