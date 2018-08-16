@@ -239,6 +239,15 @@ public class TestRxJavaActivity extends Activity {
                 tvLog.append("Observable.zip.accept:s="+s+"\n");
             }
         });
+        //repeat 重复指定次数
+        Observable.just(1,2)
+                .repeat(2)
+                .subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                tvLog.append("Observable.repeat.accept:i="+integer+"\n");
+            }
+        });
 
         //concat 合并两个Observable, B Observable追加到A Observable后面
         Observable.concat(Observable.just(1,2,3), Observable.just(4,5))
