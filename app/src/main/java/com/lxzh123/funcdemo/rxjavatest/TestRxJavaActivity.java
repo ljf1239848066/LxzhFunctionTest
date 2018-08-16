@@ -545,13 +545,14 @@ public class TestRxJavaActivity extends Activity {
                 .groupBy(new Function<Integer, String>() {
                     @Override
                     public String apply(Integer integer) throws Exception {
-                        return integer+"";
+                        return (integer%2==0)?"偶数":"奇数";//返回分组的key
                     }
                 })
                 .subscribe(new Consumer<GroupedObservable<String, Integer>>() {
                     @Override
                     public void accept(GroupedObservable<String, Integer> strInt) throws Exception {
                         final String key=strInt.getKey();
+                        //每个分组单独订阅
                         strInt.subscribe(new Consumer<Integer>() {
                             @Override
                             public void accept(Integer integer) throws Exception {
