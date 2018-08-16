@@ -205,6 +205,14 @@ public class TestRxJavaActivity extends Activity {
                 tvLog.append("Observable.create.subscribe.onComplete:\n");
             }
         });
+        //range 发送从start开始count个事件
+        Observable.range(1,3)
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        tvLog.append("Observable.range.accept:i="+integer+"\n");
+                    }
+                });
         //map Observable类型映射
         Observable.just(1,2,3)
                 .map(new Function<Integer, String>() {
