@@ -1,4 +1,4 @@
-package com.lxzh123.funcdemo.findalgo;
+package com.lxzh123.funcdemo.algo.findalgo;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lxzh123.funcdemo.R;
-import com.lxzh123.funcdemo.sortalgo.Sorter;
+import com.lxzh123.funcdemo.algo.sortalgo.Sorter;
 
 import org.apache.log4j.helpers.OptionConverter;
 

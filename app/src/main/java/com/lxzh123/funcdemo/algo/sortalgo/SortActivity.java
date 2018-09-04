@@ -1,4 +1,4 @@
-package com.lxzh123.funcdemo.sortalgo;
+package com.lxzh123.funcdemo.algo.sortalgo;
 
 import android.app.Activity;
 import android.os.Bundle;

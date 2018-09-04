@@ -1,4 +1,4 @@
-package com.lxzh123.funcdemo.findalgo;
+package com.lxzh123.funcdemo.algo.findalgo;
 
 /**
  * description: 常用查找算法公共类

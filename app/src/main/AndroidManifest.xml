@@ -96,10 +96,10 @@
         </receiver>
 
         <activity
-            android:name=".sortalgo.SortActivity"
+            android:name=".algo.sortalgo.SortActivity"
             android:label="SortAlgorithm" />
         <activity
-            android:name=".findalgo.FindActivity"
+            android:name=".algo.findalgo.FindActivity"
             android:label="FindAlgorithm" />
         <activity
             android:name=".processtest.Activity1InMainProcessActivity"

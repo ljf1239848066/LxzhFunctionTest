@@ -1,4 +1,4 @@
-package com.lxzh123.funcdemo.sortalgo;
+package com.lxzh123.funcdemo.algo.sortalgo;
 
 /**
  * description: 常用排序公共类
