@@ -38,6 +38,7 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 
 public class TestRxJavaActivity extends Activity {
@@ -205,6 +206,14 @@ public class TestRxJavaActivity extends Activity {
                 tvLog.append("Observable.create.subscribe.onComplete:\n");
             }
         });
+        //range 发送从start开始count个事件
+        Observable.range(1,3)
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        tvLog.append("Observable.range.accept:i="+integer+"\n");
+                    }
+                });
         //map Observable类型映射
         Observable.just(1,2,3)
                 .map(new Function<Integer, String>() {
@@ -219,6 +228,15 @@ public class TestRxJavaActivity extends Activity {
                         tvLog.append("Observable.map.accept:s="+s+"\n");
                     }
                 });
+        //cast Observable类型转换
+        Observable.just(1,2,3)
+                .cast(Object.class)
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {
+                        tvLog.append("Observable.cast.accept:o="+o+"\n");
+                    }
+                });
         //zip 两个Observable指定索引事件合并为一个事件(二取小)
         Observable.zip(Observable.just("A", "B", "C"), Observable.just(1, 2, 3, 4, 5), new BiFunction<String, Integer, String>() {
             @Override
@@ -229,6 +247,15 @@ public class TestRxJavaActivity extends Activity {
             @Override
             public void accept(String s) throws Exception {
                 tvLog.append("Observable.zip.accept:s="+s+"\n");
+            }
+        });
+        //repeat 重复指定次数
+        Observable.just(1,2)
+                .repeat(2)
+                .subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                tvLog.append("Observable.repeat.accept:i="+integer+"\n");
             }
         });
 
@@ -513,7 +540,27 @@ public class TestRxJavaActivity extends Activity {
                         });
                     }
                 });
-
+        //groupBy
+        Observable.just(1,2,3)
+                .groupBy(new Function<Integer, String>() {
+                    @Override
+                    public String apply(Integer integer) throws Exception {
+                        return (integer%2==0)?"偶数":"奇数";//返回分组的key
+                    }
+                })
+                .subscribe(new Consumer<GroupedObservable<String, Integer>>() {
+                    @Override
+                    public void accept(GroupedObservable<String, Integer> strInt) throws Exception {
+                        final String key=strInt.getKey();
+                        //每个分组单独订阅
+                        strInt.subscribe(new Consumer<Integer>() {
+                            @Override
+                            public void accept(Integer integer) throws Exception {
+                                tvLog.append("Observable.groupBy.acceot:s="+key+",value="+integer+"\n");
+                            }
+                        });
+                    }
+                });
 
 
         Flowable.just("Hello Flowable just\n")
