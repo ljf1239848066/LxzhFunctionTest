@@ -17,10 +17,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+        android:name=".LxzhApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".LxzhApplication">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -65,6 +65,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".record2.Record2Activity"
+            android:label="@string/title_activity_record2"/>
+        <activity
             android:name=".inputmethod.InputMethodActivity"
             android:label="@string/title_activity_inputmethod" />
         <activity
@@ -103,25 +106,26 @@
             android:label="FindAlgorithm" />
         <activity
             android:name=".processtest.Activity1InMainProcessActivity"
-            android:label="@string/title_activity_process"/>
+            android:label="@string/title_activity_process" />
         <activity
             android:name=".processtest.Activity2InOtherProcessActivity"
-            android:process=":other"
-            android:label="@string/title_activity_process"/>
+            android:label="@string/title_activity_process"
+            android:process=":other" />
+
         <service
             android:name=".socket.SocketServerService"
             android:exported="false"
-            android:label="@string/title_activity_socket"/>
+            android:label="@string/title_activity_socket" />
 
         <activity
             android:name=".socket.SocketClient1Activity"
-            android:label="@string/title_activity_socket"/>
+            android:label="@string/title_activity_socket" />
         <activity
             android:name=".unsafetest.TestUnsafeActivity"
-            android:label="@string/title_activity_unsafe"/>
+            android:label="@string/title_activity_unsafe" />
         <activity
             android:name=".rxjavatest.TestRxJavaActivity"
-            android:label="@string/title_activity_rxjava"/>
+            android:label="@string/title_activity_rxjava" />
     </application>
 
 </manifest>

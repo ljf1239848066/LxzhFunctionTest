@@ -10,6 +10,7 @@
     <string name="title_activity_notification">Notification</string>
     <string name="title_activity_filebrowser">FileBrowser</string>
     <string name="title_activity_record">Record</string>
+    <string name="title_activity_record2">Record2</string>
     <string name="title_activity_inputmethod">InputMethod</string>
     <string name="title_activity_ftp">FTP</string>
     <string name="notification">click to view</string>
