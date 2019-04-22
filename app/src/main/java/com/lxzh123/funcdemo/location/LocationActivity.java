@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,43 +33,46 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class LocationActivity extends Activity {
-    private final static String TAG="LocationActivity";
-	private TextView locationView;
-	private TextView locationInfoView;
+public class LocationActivity extends Activity implements LocationListener {
+    private final static String TAG = "LocationActivity";
+    private TextView locationView;
+    private TextView locationInfoView;
     private static final int LOCATION_CODE = 1;
-    private boolean requestPerFinished=true;
+    private boolean requestPerFinished = true;
+    private boolean hasRegisterLocationListerner = false;
+    private LocationManager locationManager;
 
-	@TargetApi(9)
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_location);
-		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-				.detectDiskReads().detectDiskWrites().detectNetwork()
-				.penaltyLog().build());
-		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-				.detectLeakedSqlLiteObjects() // 探测SQLite数据库操作
-				.penaltyLog() // 打印logcat
-				.penaltyDeath().build());
+    @TargetApi(9)
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_location);
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads().detectDiskWrites().detectNetwork()
+                .penaltyLog().build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects() // 探测SQLite数据库操作
+                .penaltyLog() // 打印logcat
+                .penaltyDeath().build());
 
-		locationView = (TextView) findViewById(R.id.location);
-		locationInfoView = (TextView) findViewById(R.id.locationinfo);
-	}
+        locationView = (TextView) findViewById(R.id.location);
+        locationInfoView = (TextView) findViewById(R.id.locationinfo);
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        LocationPermission lp=hasLocationPermissions(this);
-        switch (lp){
+        LocationPermission lp = hasLocationPermissions(this);
+        switch (lp) {
             case LocationProviderEnabledAndPermit:
+                registerLocationListener();
                 EventBus.getDefault().post(handler);
                 break;
             case LocationProviderEnabledButNotPermit:
-                requestPerFinished=false;
+                requestPerFinished = false;
                 EventBus.getDefault().post(handler);
-                requestLocationPermissions(this,lp);
+                requestLocationPermissions(this, lp);
                 break;
             case LocationProviderDisabled:
 
@@ -84,20 +88,20 @@ public class LocationActivity extends Activity {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onMessageEvent(Object obj) {
-        while(!requestPerFinished){
+        while (!requestPerFinished) {
             SystemClock.sleep(100);
         }
         getLocation();
     }
 
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==0){
+            if (msg.what == 0) {
                 locationView.setText(msg.obj.toString());
-            }else if(msg.what==1){
+            } else if (msg.what == 1) {
                 locationInfoView.setText(msg.obj.toString());
-            }else if(msg.what==2){
+            } else if (msg.what == 2) {
                 Toast.makeText(getBaseContext(), msg.obj.toString(), Toast.LENGTH_SHORT)
                         .show();
             }
@@ -107,37 +111,39 @@ public class LocationActivity extends Activity {
 
     /**
      * 判断是否享有定位权限
+     *
      * @param context
      * @return 1:已开通定位功能且有定位权限 0:已开通定位功能但应用无定位权限 -1:未开通定位功能
      */
-	private LocationPermission hasLocationPermissions(Context context){
-        LocationManager lm = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-        boolean ok = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    private LocationPermission hasLocationPermissions(Context context) {
+        locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+        boolean ok = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (ok) {//开了定位服务
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 return LocationPermission.LocationProviderEnabledAndPermit;
-            }else{
+            } else {
                 return LocationPermission.LocationProviderEnabledButNotPermit;
             }
         }
         return LocationPermission.LocationProviderDisabled;
     }
 
-    private void requestLocationPermissions(Context context,LocationPermission lp){
-        if (lp==LocationPermission.LocationProviderEnabledButNotPermit) {//开了定位服务
-            Log.e("BRG","没有权限");
+    private void requestLocationPermissions(Context context, LocationPermission lp) {
+        if (lp == LocationPermission.LocationProviderEnabledButNotPermit) {//开了定位服务
+            Log.e("BRG", "没有权限");
             // 没有权限，申请权限。
             ActivityCompat.requestPermissions(LocationActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_CODE);
 //                        Toast.makeText(getActivity(), "没有权限", Toast.LENGTH_SHORT).show();
-        } else if(lp==LocationPermission.LocationProviderDisabled){
-            Log.e("BRG","系统检测到未开启GPS定位服务");
+        } else if (lp == LocationPermission.LocationProviderDisabled) {
+            Log.e("BRG", "系统检测到未开启GPS定位服务");
             Toast.makeText(context, "系统检测到未开启GPS定位服务", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivityForResult(intent, 1315);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -145,51 +151,102 @@ public class LocationActivity extends Activity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // 权限被用户同意。
-
+                    Log.d(TAG, "onRequestPermissionsResult PERMISSION_GRANTED");
+                    registerLocationListener();
                 } else {
                     // 权限被用户拒绝了。
-                    Toast.makeText(LocationActivity.this, "定位权限被禁止，相关地图功能无法使用！",Toast.LENGTH_LONG).show();
+                    Toast.makeText(LocationActivity.this, "定位权限被禁止，相关地图功能无法使用！", Toast.LENGTH_LONG).show();
                 }
-                requestPerFinished=true;
+                requestPerFinished = true;
             }
         }
     }
 
-    private void getLocation(){
-		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		// 返回所有已知的位置提供者的名称列表，包括未获准访问或调用活动目前已停用的。
-		List<String> lp = lm.getAllProviders();
-		for (String item : lp) {
-			Log.i("8023", "可用位置服务：" + item);
-		}
+    @SuppressLint("MissingPermission")
+    private void registerLocationListener() {
+        if (hasRegisterLocationListerner) {
+            return;
+        }
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        List<String> providers = locationManager.getProviders(true);
+        String provider = "gps";
+        if (providers.contains("gps")) {
+            provider = "gps";
+        } else if (providers.contains("passive")) {
+            provider = "passive";
+        } else if (providers.contains("network")) {
+            provider = "network";
+        }
+        locationManager.requestLocationUpdates(provider, 1000, 2f, this);
+        hasRegisterLocationListerner = true;
+    }
 
-		Criteria criteria = new Criteria();
-		criteria.setCostAllowed(false);
-		// 设置位置服务免费
-		criteria.setAccuracy(Criteria.ACCURACY_COARSE); // 设置水平位置精度
-		// getBestProvider 只有允许访问调用活动的位置供应商将被返回
-		String providerName = lm.getBestProvider(criteria, true);
-		Log.i("8023", "------位置服务：" + providerName);
-        Message message=Message.obtain();
-		if (providerName != null) {
-			@SuppressLint("MissingPermission")
-            Location location = lm.getLastKnownLocation(providerName);
-			Log.i("8023", "-------" + location);
-			// 获取纬度信息
-			double latitude = location.getLatitude();
-			// 获取经度信息
-			double longitude = location.getLongitude();
-			String locationInfo="定位方式： " + providerName + "\n维度：" + latitude+ "\n经度：" + longitude;
-            message.what=0;
-            message.obj=locationInfo;
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.d(TAG, "onLocationChanged location=" + location);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getLocation() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // 返回所有已知的位置提供者的名称列表，包括未获准访问或调用活动目前已停用的。
+        List<String> lp = locationManager.getAllProviders();
+        for (String item : lp) {
+            Log.i(TAG, "可用位置服务：" + item);
+        }
+
+        Criteria criteria = new Criteria();
+        criteria.setCostAllowed(false);
+        // 设置位置服务免费
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE); // 设置水平位置精度
+        // getBestProvider 只有允许访问调用活动的位置供应商将被返回
+        String providerName = locationManager.getBestProvider(criteria, true);
+        List<String> providers = locationManager.getProviders(true);
+        Log.i(TAG, "------位置服务：" + providerName);
+        Message message = Message.obtain();
+        if (providers.size() > 0) {
+            Location location = null;
+            for (String provider : providers) {
+                location = locationManager.getLastKnownLocation(provider);
+                if (location != null) {
+                    break;
+                }
+            }
+            if (location == null) {
+                return;
+            }
+            Log.i(TAG, "-------" + location);
+            // 获取纬度信息
+            double latitude = location.getLatitude();
+            // 获取经度信息
+            double longitude = location.getLongitude();
+            String locationInfo = "定位方式： " + providerName + "\n维度：" + latitude + "\n经度：" + longitude;
+            message.what = 0;
+            message.obj = locationInfo;
 
             getLocationInfo(location);
-		} else {
-		    message.what=2;
-		    message.obj="1.请检查网络连接 \n2.请打开我的位置";
-		}
+        } else {
+            message.what = 2;
+            message.obj = "1.请检查网络连接 \n2.请打开我的位置";
+        }
         handler.sendMessage(message);
-	}
+    }
+
     private void getLocationInfo(Location location) {
         Log.d("getLocation", "1");
         /**
@@ -200,16 +257,16 @@ public class LocationActivity extends Activity {
         String response = new WebAccessTools(this).getWebContent(url.replace(
                 "$Latitude", location.getLatitude() + "").replace("$Longitude",
                 location.getLongitude() + ""));
-        Message message=Message.obtain();
-        if(response==null){
-            message.what=2;
-            message.obj="获取地址失败";
-        }else{
+        Message message = Message.obtain();
+        if (response == null) {
+            message.what = 2;
+            message.obj = "获取地址失败";
+        } else {
 //            String locationInfo=response.substring(response.indexOf("formatted_address") + 22,
 //                    response.indexOf("geometry") - 13);
-            Log.i(TAG,"response:"+response);
-            message.what=1;
-            message.obj=response;
+            Log.i(TAG, "response:" + response);
+            message.what = 1;
+            message.obj = response;
         }
         handler.sendMessage(message);
     }
@@ -232,4 +289,13 @@ public class LocationActivity extends Activity {
 //        }
 //        handler.sendMessage(message);
 //	}
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (hasRegisterLocationListerner) {
+            locationManager.removeUpdates(this);
+        }
+    }
 }
