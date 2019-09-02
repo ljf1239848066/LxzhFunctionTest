@@ -142,7 +142,6 @@ public class BCReceiverActivity extends Activity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		unregisterReceiver(receiver);
 		Log.i(RECEIVERTAG, "the receiver have been unRegistered!");

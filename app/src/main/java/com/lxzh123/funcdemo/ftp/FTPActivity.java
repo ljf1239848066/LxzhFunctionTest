@@ -12,6 +12,10 @@ import com.lxzh123.funcdemo.R;
 
 import org.apache.commons.net.ftp.FTPClient;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Vector;
 
 public class FTPActivity extends Activity {
@@ -46,6 +50,16 @@ public class FTPActivity extends Activity {
 				}
 			}
 		});
+
+        try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(""));
+			oos.writeObject(new Object());
+
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(""));
+			ois.readObject();
+		}catch (Exception ex) {
+
+		}
     }
 
     @Override
