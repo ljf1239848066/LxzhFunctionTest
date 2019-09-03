@@ -229,20 +229,16 @@ public class BinaryTree<T extends Comparable> {
         TreeNode tmp = root;
         while (tmp != null || !stack.isEmpty()) {
             if (tmp != null) {
-                if (tmp.hasRight()) {
+                if (tmp.hasChild()) {
                     stack.push(tmp);
+                } else {
+                    System.out.print(tmp.value.toString());
                 }
                 tmp = tmp.left;
             } else if (!stack.isEmpty()) {
                 tmp = stack.pop();
                 System.out.print(tmp.value.toString());
-                if (tmp.hasRight()) {
-                    tmp = tmp.right;
-                    if (!tmp.hasLeft()) {
-                        System.out.print(tmp.value.toString());
-                    }
-                }
-
+                tmp = tmp.right;
             }
         }
     }
