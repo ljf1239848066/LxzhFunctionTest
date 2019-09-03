@@ -12,7 +12,7 @@ import static com.lxzh123.funcdemo.algo.tree.TreeNode.NODE_ROOT;
 public class BinaryTree<T extends Comparable> {
     private TreeNode<T> root;
 
-    private static Mode mode = Mode.Recursion;
+    private Mode mode = Mode.Recursion;
 
     enum Mode {
         /**
@@ -29,8 +29,8 @@ public class BinaryTree<T extends Comparable> {
         root = null;
     }
 
-    public static void setMode(Mode mode) {
-        BinaryTree.mode = mode;
+    public void setMode(Mode mode) {
+        this.mode = mode;
     }
 
     private TreeNode makeNode(T value, int level, @TreeNode.NodeType int type) {
@@ -191,22 +191,18 @@ public class BinaryTree<T extends Comparable> {
     }
 
     private void printPreOrderByIteration() {
-        Stack<T> stack = new Stack<>();
+        Stack<TreeNode> stack = new Stack<>();
         TreeNode tmp = root;
-
-        while (tmp!=null || !stack.isEmpty()){
-            if(tmp!=null) {
-                System.out.print(root.value.toString());
-                if(tmp.hasLeft()) {
-                    
+        while (tmp != null || !stack.isEmpty()) {
+            if (tmp != null) {
+                System.out.print(tmp.value.toString());
+                if (tmp.hasRight()) {
+                    stack.push(tmp.right);
                 }
+                tmp = tmp.left;
+            } else if (!stack.isEmpty()) {
+                tmp = stack.pop();
             }
-        }
-        if (root.hasLeft()) {
-            printPreOrderByRecursion(root.left);
-        }
-        if (root.hasRight()) {
-            printPreOrderByRecursion(root.right);
         }
     }
 
@@ -229,7 +225,26 @@ public class BinaryTree<T extends Comparable> {
     }
 
     private void printInOrderByIteration() {
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode tmp = root;
+        while (tmp != null || !stack.isEmpty()) {
+            if (tmp != null) {
+                if (tmp.hasRight()) {
+                    stack.push(tmp);
+                }
+                tmp = tmp.left;
+            } else if (!stack.isEmpty()) {
+                tmp = stack.pop();
+                System.out.print(tmp.value.toString());
+                if (tmp.hasRight()) {
+                    tmp = tmp.right;
+                    if (!tmp.hasLeft()) {
+                        System.out.print(tmp.value.toString());
+                    }
+                }
 
+            }
+        }
     }
 
     private void printPosOrder() {
@@ -271,11 +286,26 @@ public class BinaryTree<T extends Comparable> {
     }
 
     public static void main(String[] args) {
-        Integer[] arrInt = new Integer[]{5, 3, 1, 4, 2, 8, 6, 9, 7};
-        BinaryTree<Integer> integerBinaryTree = new BinaryTree<>();
-        integerBinaryTree.createTree(arrInt);
-        integerBinaryTree.print(PrintMode.Pre);
-        integerBinaryTree.print(PrintMode.In);
-        integerBinaryTree.print(PrintMode.Pos);
+        Integer[] arrInt1 = new Integer[]{5, 3, 1, 4, 2, 8, 6, 9, 7};
+        BinaryTree<Integer> integerBinaryTree1 = new BinaryTree<>();
+        integerBinaryTree1.createTree(arrInt1);
+        integerBinaryTree1.print(PrintMode.Pre);
+        integerBinaryTree1.print(PrintMode.In);
+        integerBinaryTree1.print(PrintMode.Pos);
+        integerBinaryTree1.setMode(Mode.Iteration);
+        integerBinaryTree1.print(PrintMode.Pre);
+        integerBinaryTree1.print(PrintMode.In);
+        integerBinaryTree1.print(PrintMode.Pos);
+
+        Integer[] arrInt2 = new Integer[]{5, 3, 1, 4, 2, 8, 7, 9, 6};
+        BinaryTree<Integer> integerBinaryTree2 = new BinaryTree<>();
+        integerBinaryTree2.createTree(arrInt2);
+        integerBinaryTree2.print(PrintMode.Pre);
+        integerBinaryTree2.print(PrintMode.In);
+        integerBinaryTree2.print(PrintMode.Pos);
+        integerBinaryTree2.setMode(Mode.Iteration);
+        integerBinaryTree2.print(PrintMode.Pre);
+        integerBinaryTree2.print(PrintMode.In);
+        integerBinaryTree2.print(PrintMode.Pos);
     }
 }

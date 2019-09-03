@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * author      Created by lxzh
  * date        2019-09-03
  */
-public class Stack<T extends Comparable> {
+public class Stack<T> {
     private ArrayList<T> data;
 
     public Stack() {
