@@ -5,19 +5,37 @@ import static com.lxzh123.funcdemo.algo.tree.TreeNode.NODE_RIGHT;
 import static com.lxzh123.funcdemo.algo.tree.TreeNode.NODE_ROOT;
 
 /**
- * description 二叉排序树$
+ * description 二叉排序树
  * author      Created by lxzh
  * date        2019-09-03
  */
 public class BinaryTree<T extends Comparable> {
+    /**
+     * 遍历打印方式
+     */
     public enum PrintMode {
+        /**
+         * 前序遍历
+         */
         Pre,
+        /**
+         * 中序遍历
+         */
         In,
+        /**
+         * 后序遍历
+         */
         Pos,
+        /**
+         * 逐层遍历
+         */
         Level
     }
 
-    enum Mode {
+    /**
+     * 算法实现模式
+     */
+    enum AlgorithmMode {
         /**
          * 递归
          */
@@ -28,15 +46,21 @@ public class BinaryTree<T extends Comparable> {
         Iteration
     }
 
+    /**
+     * 根节点
+     */
     private TreeNode<T> root;
 
-    private Mode mode = Mode.Recursion;
+    /**
+     * 默认算法实现模式
+     */
+    private AlgorithmMode mode = AlgorithmMode.Recursion;
 
     public BinaryTree() {
         root = null;
     }
 
-    public void setMode(Mode mode) {
+    public void setMode(AlgorithmMode mode) {
         this.mode = mode;
     }
 
@@ -46,6 +70,9 @@ public class BinaryTree<T extends Comparable> {
         return node;
     }
 
+    /**
+     * 清空二叉排序树
+     */
     public void clear() {
         if (root != null) {
             clear(root);
@@ -64,6 +91,10 @@ public class BinaryTree<T extends Comparable> {
         node = null;
     }
 
+    /**
+     * 根据数据创建二叉排序树
+     * @param array
+     */
     public void createTree(T[] array) {
         int len = array.length;
         if (root != null) {
@@ -81,7 +112,7 @@ public class BinaryTree<T extends Comparable> {
      * @param item
      */
     public void insert(T item) {
-        if (mode == Mode.Recursion) {
+        if (mode == AlgorithmMode.Recursion) {
             insertByRecursion(item);
         } else {
             insertByIteration(item);
@@ -176,7 +207,7 @@ public class BinaryTree<T extends Comparable> {
      * 前序遍历
      */
     private void printPreOrder() {
-        if (mode == Mode.Recursion) {
+        if (mode == AlgorithmMode.Recursion) {
             System.out.print("PreRecursion:");
             printPreOrderByRecursion(root);
         } else {
@@ -187,6 +218,7 @@ public class BinaryTree<T extends Comparable> {
 
     /**
      * 前序遍历: 递归模式
+     *
      * @param root
      */
     private void printPreOrderByRecursion(TreeNode root) {
@@ -222,7 +254,7 @@ public class BinaryTree<T extends Comparable> {
      * 中序遍历
      */
     private void printInOrder() {
-        if (mode == Mode.Recursion) {
+        if (mode == AlgorithmMode.Recursion) {
             System.out.print("InRecursion :");
             printInOrderByRecursion(root);
         } else {
@@ -233,6 +265,7 @@ public class BinaryTree<T extends Comparable> {
 
     /**
      * 中序遍历: 递归模式
+     *
      * @param root
      */
     private void printInOrderByRecursion(TreeNode root) {
@@ -271,7 +304,7 @@ public class BinaryTree<T extends Comparable> {
      * 后序遍历
      */
     private void printPosOrder() {
-        if (mode == Mode.Recursion) {
+        if (mode == AlgorithmMode.Recursion) {
             System.out.print("PosRecursion:");
             printPosOrderByRecursion(root);
         } else {
@@ -282,6 +315,7 @@ public class BinaryTree<T extends Comparable> {
 
     /**
      * 后序遍历: 递归模式
+     *
      * @param root
      */
     private void printPosOrderByRecursion(TreeNode root) {
@@ -326,7 +360,7 @@ public class BinaryTree<T extends Comparable> {
      * 逐层遍历
      */
     private void printLevel() {
-        if (mode == Mode.Recursion) {
+        if (mode == AlgorithmMode.Recursion) {
             System.out.print("LvlRecursion:");
             printLevelByRecursion();
         } else {
@@ -346,6 +380,7 @@ public class BinaryTree<T extends Comparable> {
 
     /**
      * 逐层遍历: 递归模式
+     *
      * @param queue
      */
     private void printLevelByRecursion(Queue<TreeNode> queue) {
@@ -483,7 +518,7 @@ public class BinaryTree<T extends Comparable> {
         integerBinaryTree1.print(PrintMode.In);
         integerBinaryTree1.print(PrintMode.Pos);
         integerBinaryTree1.print(PrintMode.Level);
-        integerBinaryTree1.setMode(Mode.Iteration);
+        integerBinaryTree1.setMode(AlgorithmMode.Iteration);
         integerBinaryTree1.print(PrintMode.Pre);
         integerBinaryTree1.print(PrintMode.In);
         integerBinaryTree1.print(PrintMode.Pos);
@@ -499,7 +534,7 @@ public class BinaryTree<T extends Comparable> {
         integerBinaryTree2.print(PrintMode.In);
         integerBinaryTree2.print(PrintMode.Pos);
         integerBinaryTree2.print(PrintMode.Level);
-        integerBinaryTree2.setMode(Mode.Iteration);
+        integerBinaryTree2.setMode(AlgorithmMode.Iteration);
         integerBinaryTree2.print(PrintMode.Pre);
         integerBinaryTree2.print(PrintMode.In);
         integerBinaryTree2.print(PrintMode.Pos);
@@ -514,7 +549,7 @@ public class BinaryTree<T extends Comparable> {
         integerBinaryTree3.print(PrintMode.In);
         integerBinaryTree3.print(PrintMode.Pos);
         integerBinaryTree3.print(PrintMode.Level);
-        integerBinaryTree3.setMode(Mode.Iteration);
+        integerBinaryTree3.setMode(AlgorithmMode.Iteration);
         integerBinaryTree3.print(PrintMode.Pre);
         integerBinaryTree3.print(PrintMode.In);
         integerBinaryTree3.print(PrintMode.Pos);
@@ -529,7 +564,7 @@ public class BinaryTree<T extends Comparable> {
         integerBinaryTree4.print(PrintMode.In);
         integerBinaryTree4.print(PrintMode.Pos);
         integerBinaryTree4.print(PrintMode.Level);
-        integerBinaryTree4.setMode(Mode.Iteration);
+        integerBinaryTree4.setMode(AlgorithmMode.Iteration);
         integerBinaryTree4.print(PrintMode.Pre);
         integerBinaryTree4.print(PrintMode.In);
         integerBinaryTree4.print(PrintMode.Pos);
@@ -544,7 +579,7 @@ public class BinaryTree<T extends Comparable> {
         strBinaryTree1.print(PrintMode.In);
         strBinaryTree1.print(PrintMode.Pos);
         strBinaryTree1.print(PrintMode.Level);
-        strBinaryTree1.setMode(Mode.Iteration);
+        strBinaryTree1.setMode(AlgorithmMode.Iteration);
         strBinaryTree1.print(PrintMode.Pre);
         strBinaryTree1.print(PrintMode.In);
         strBinaryTree1.print(PrintMode.Pos);
