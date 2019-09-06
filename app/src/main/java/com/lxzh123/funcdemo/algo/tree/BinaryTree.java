@@ -172,6 +172,9 @@ public class BinaryTree<T extends Comparable> {
         System.out.println("");
     }
 
+    /**
+     * 前序遍历
+     */
     private void printPreOrder() {
         if (mode == Mode.Recursion) {
             System.out.print("PreRecursion:");
@@ -182,6 +185,10 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
+    /**
+     * 前序遍历: 递归模式
+     * @param root
+     */
     private void printPreOrderByRecursion(TreeNode root) {
         System.out.print(root.value.toString());
         if (root.hasLeft()) {
@@ -192,6 +199,9 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
+    /**
+     * 前序遍历: 迭代模式
+     */
     private void printPreOrderByIteration() {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode tmp = root;
@@ -208,6 +218,9 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
+    /**
+     * 中序遍历
+     */
     private void printInOrder() {
         if (mode == Mode.Recursion) {
             System.out.print("InRecursion :");
@@ -218,6 +231,10 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
+    /**
+     * 中序遍历: 递归模式
+     * @param root
+     */
     private void printInOrderByRecursion(TreeNode root) {
         if (root.hasLeft()) {
             printInOrderByRecursion(root.left);
@@ -228,6 +245,9 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
+    /**
+     * 中序遍历: 迭代模式
+     */
     private void printInOrderByIteration() {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode tmp = root;
@@ -247,6 +267,9 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
+    /**
+     * 后序遍历
+     */
     private void printPosOrder() {
         if (mode == Mode.Recursion) {
             System.out.print("PosRecursion:");
@@ -257,6 +280,10 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
+    /**
+     * 后序遍历: 递归模式
+     * @param root
+     */
     private void printPosOrderByRecursion(TreeNode root) {
         if (root.hasLeft()) {
             printPosOrderByRecursion(root.left);
@@ -267,6 +294,9 @@ public class BinaryTree<T extends Comparable> {
         System.out.print(root.value.toString());
     }
 
+    /**
+     * 后序遍历: 迭代模式
+     */
     private void printPosOrderByIteration() {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode lastNode = null;
@@ -292,6 +322,9 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
+    /**
+     * 逐层遍历
+     */
     private void printLevel() {
         if (mode == Mode.Recursion) {
             System.out.print("LvlRecursion:");
@@ -302,12 +335,19 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
+    /**
+     * 逐层遍历: 递归模式
+     */
     private void printLevelByRecursion() {
         Queue<TreeNode> queue = new Queue<>();
         queue.push(root);
         printLevelByRecursion(queue);
     }
 
+    /**
+     * 逐层遍历: 递归模式
+     * @param queue
+     */
     private void printLevelByRecursion(Queue<TreeNode> queue) {
         Queue<TreeNode> nextLevel = new Queue<>();
         while (!queue.isEmpty()) {
@@ -327,6 +367,9 @@ public class BinaryTree<T extends Comparable> {
         printLevelByRecursion(nextLevel);
     }
 
+    /**
+     * 逐层遍历: 迭代模式
+     */
     private void printLevelByIteration() {
         Queue<TreeNode> queue = new Queue<>();
         TreeNode tmp = root;
@@ -380,6 +423,9 @@ public class BinaryTree<T extends Comparable> {
         return Math.max(l, r) + 1;
     }
 
+    /**
+     * 树形结构打印
+     */
     public void printTree() {
         if (root == null) {
             return;
@@ -387,7 +433,6 @@ public class BinaryTree<T extends Comparable> {
         int depth = getTreeDepth(root);
         int width = getTreeWidth(root);
         int height = depth * 2 - 1;
-//        System.out.println("TreeDeep:" + getTreeDeep(root));
         char[][] outStrArr = new char[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -395,12 +440,10 @@ public class BinaryTree<T extends Comparable> {
             }
         }
 
-        int left = root.hasLeft() ? getTreeWidth(root.left) + 1 : 0;
         fillStrArrByTree(outStrArr, root, 0, 0, false, 0);
         for (int i = 0; i < height; i++) {
             System.out.println(outStrArr[i]);
         }
-        printTree(root);
     }
 
     private void printCopy(char[] arr, String value, int start) {
@@ -416,7 +459,6 @@ public class BinaryTree<T extends Comparable> {
         int startX = parentR + left;
 //        System.out.println("node = [" + node + "], rowIndex = [" + rowIndex + "], parentR = [" + parentR + "], left = [" + left + "], width = [" + width + "], x1 = [" + x1 + "]");
         printCopy(arr[rowIndex], node.value.toString(), startX);
-
         if (!node.isRoot()) {
             if (isLeft) {
                 arr[rowIndex - 1][(startX + x1) / 2] = '/';
@@ -431,18 +473,6 @@ public class BinaryTree<T extends Comparable> {
             fillStrArrByTree(arr, node.right, rowIndex + 2, startX + width + 1, false, startX + width);
         }
     }
-
-    private void printTree(TreeNode node) {
-//        System.out.println("node = [" + node + "], width = " + getTreeWidth(node));
-        if (node.hasLeft()) {
-            printTree(node.left);
-//            System.out.println("node = [" + node.left + "], width = "+ getNodeWidth(node.left));
-        }
-        if (node.hasRight()) {
-            printTree(node.right);
-        }
-    }
-
 
     public static void test() {
         System.out.println("arrInt1");
@@ -520,6 +550,5 @@ public class BinaryTree<T extends Comparable> {
         strBinaryTree1.print(PrintMode.Pos);
         strBinaryTree1.print(PrintMode.Level);
         strBinaryTree1.printTree();
-
     }
 }
