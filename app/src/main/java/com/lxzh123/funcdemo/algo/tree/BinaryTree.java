@@ -430,6 +430,12 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
+    /**
+     * 根据打印显示规则，获取子树占用的总宽度
+     * TODO: 待优化重复调用问题
+     * @param node
+     * @return
+     */
     private int getTreeWidth(TreeNode node) {
         int l = 0;
         int r = 0;
@@ -460,6 +466,8 @@ public class BinaryTree<T extends Comparable> {
 
     /**
      * 树形结构打印
+     * 左子树所有节点在父节点左侧，右子树所有节点在父节点右侧
+     * 将叶子树视为一个整体时，父节点与叶子树之间保留一个单位间隙
      */
     public void printTree() {
         if (root == null) {
@@ -492,7 +500,6 @@ public class BinaryTree<T extends Comparable> {
         int left = node.hasLeft() ? getTreeWidth(node.left) + 1 : 0;
         int width = node.value.toString().length();
         int startX = parentR + left;
-//        System.out.println("node = [" + node + "], rowIndex = [" + rowIndex + "], parentR = [" + parentR + "], left = [" + left + "], width = [" + width + "], x1 = [" + x1 + "]");
         printCopy(arr[rowIndex], node.value.toString(), startX);
         if (!node.isRoot()) {
             if (isLeft) {

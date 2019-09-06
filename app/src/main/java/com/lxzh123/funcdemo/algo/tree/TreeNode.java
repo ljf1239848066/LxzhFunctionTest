@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * description 二叉树节点$
+ * description 二叉树节点
  * author      Created by lxzh
  * date        2019-09-03
  */
