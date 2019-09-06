@@ -10,9 +10,12 @@ import static com.lxzh123.funcdemo.algo.tree.TreeNode.NODE_ROOT;
  * date        2019-09-03
  */
 public class BinaryTree<T extends Comparable> {
-    private TreeNode<T> root;
-
-    private Mode mode = Mode.Recursion;
+    public enum PrintMode {
+        Pre,
+        In,
+        Pos,
+        Level
+    }
 
     enum Mode {
         /**
@@ -24,6 +27,10 @@ public class BinaryTree<T extends Comparable> {
          */
         Iteration
     }
+
+    private TreeNode<T> root;
+
+    private Mode mode = Mode.Recursion;
 
     public BinaryTree() {
         root = null;
@@ -144,13 +151,6 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
-    enum PrintMode {
-        Pre,
-        In,
-        Pos,
-        Level
-    }
-
     public void print(PrintMode mode) {
         if (root == null) {
             return;
@@ -269,57 +269,26 @@ public class BinaryTree<T extends Comparable> {
 
     private void printPosOrderByIteration() {
         Stack<TreeNode> stack = new Stack<>();
-        Stack<TreeNode> stack1 = new Stack<>();
+        TreeNode lastNode = null;
         TreeNode tmp = root;
-        boolean isPop = false;
         while (tmp != null || !stack.isEmpty()) {
             if (tmp != null) {
-                if (tmp.hasChild()) {
-                    if (isPop) {
-                        if (tmp.hasRight()) {
-                            stack.push(tmp);
-                        } else {
-                            System.out.print(tmp.value.toString());
-                            stack.pop();
-                        }
-                        tmp = null;
-                    } else {
-                        stack.push(tmp);
-                        tmp = tmp.left;
-                    }
-                    isPop = false;
-                } else {
-                    System.out.print(tmp.value.toString());
-                    while (!stack.isEmpty()) {
-                        TreeNode parent = stack.tryPop();
-                        if (parent.right == tmp) {
-                            System.out.print(parent.value.toString());
-                            tmp = stack.pop();
-                        } else {
-                            break;
-                        }
-                    }
-                    tmp = null;
+                if (tmp.hasLeft() && (lastNode == null || !tmp.isChild(lastNode))) {
+                    stack.push(tmp);
+                    tmp = tmp.left;
+                    continue;
                 }
-            } else if (!stack.isEmpty()) {
-                if (stack.size() == 1) {
-                    tmp = stack.pop();
-                    stack1.push(tmp);
-                } else {
-                    tmp = stack.tryPop();
-                }
-
-                if (tmp.hasRight()) {
+                if (tmp.hasRight() && lastNode != tmp.right) {
+                    stack.push(tmp);
                     tmp = tmp.right;
-                    isPop = false;
-                } else {
-                    isPop = true;
+                    continue;
                 }
+                System.out.print(tmp.value.toString());
+                lastNode = tmp;
+                tmp = null;
+            } else if (!stack.isEmpty()) {
+                tmp = stack.pop();
             }
-        }
-        while (!stack1.isEmpty()) {
-            tmp = stack1.pop();
-            System.out.print(tmp.value.toString());
         }
     }
 
@@ -383,11 +352,99 @@ public class BinaryTree<T extends Comparable> {
         }
     }
 
-    public void printTree() {
-
+    private int getTreeWidth(TreeNode node) {
+        int l = 0;
+        int r = 0;
+        int w = 0;
+        if (node.hasLeft()) {
+            l = getTreeWidth(node.left);
+        }
+        if (node.hasRight()) {
+            r = getTreeWidth(node.right);
+        }
+        w += l > 0 ? l + 1 : 0;
+        w += r > 0 ? r + 1 : 0;
+        w += node.value.toString().length();
+        return w;
     }
 
-    public static void main(String[] args) {
+    private int getTreeDepth(TreeNode node) {
+        int l = 0;
+        int r = 0;
+        if (node.hasLeft()) {
+            l = getTreeDepth(node.left);
+        }
+        if (node.hasRight()) {
+            r = getTreeDepth(node.right);
+        }
+        return Math.max(l, r) + 1;
+    }
+
+    public void printTree() {
+        if (root == null) {
+            return;
+        }
+        int depth = getTreeDepth(root);
+        int width = getTreeWidth(root);
+        int height = depth * 2 - 1;
+//        System.out.println("TreeDeep:" + getTreeDeep(root));
+        char[][] outStrArr = new char[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                outStrArr[i][j] = '.';
+            }
+        }
+
+        int left = root.hasLeft() ? getTreeWidth(root.left) + 1 : 0;
+        fillStrArrByTree(outStrArr, root, 0, 0, false, 0);
+        for (int i = 0; i < height; i++) {
+            System.out.println(outStrArr[i]);
+        }
+        printTree(root);
+    }
+
+    private void printCopy(char[] arr, String value, int start) {
+        int len = value.length();
+        for (int i = 0; i < len; i++) {
+            arr[i + start] = value.charAt(i);
+        }
+    }
+
+    private void fillStrArrByTree(char[][] arr, TreeNode node, int rowIndex, int parentR, boolean isLeft, int x1) {
+        int left = node.hasLeft() ? getTreeWidth(node.left) + 1 : 0;
+        int width = node.value.toString().length();
+        int startX = parentR + left;
+//        System.out.println("node = [" + node + "], rowIndex = [" + rowIndex + "], parentR = [" + parentR + "], left = [" + left + "], width = [" + width + "], x1 = [" + x1 + "]");
+        printCopy(arr[rowIndex], node.value.toString(), startX);
+
+        if (!node.isRoot()) {
+            if (isLeft) {
+                arr[rowIndex - 1][(startX + x1) / 2] = '/';
+            } else {
+                arr[rowIndex - 1][(startX + x1) / 2] = '\\';
+            }
+        }
+        if (node.hasLeft()) {
+            fillStrArrByTree(arr, node.left, rowIndex + 2, parentR, true, startX);
+        }
+        if (node.hasRight()) {
+            fillStrArrByTree(arr, node.right, rowIndex + 2, startX + width + 1, false, startX + width);
+        }
+    }
+
+    private void printTree(TreeNode node) {
+//        System.out.println("node = [" + node + "], width = " + getTreeWidth(node));
+        if (node.hasLeft()) {
+            printTree(node.left);
+//            System.out.println("node = [" + node.left + "], width = "+ getNodeWidth(node.left));
+        }
+        if (node.hasRight()) {
+            printTree(node.right);
+        }
+    }
+
+
+    public static void test() {
         System.out.println("arrInt1");
         Integer[] arrInt1 = new Integer[]{5, 3, 1, 4, 2, 8, 6, 9, 7};
         BinaryTree<Integer> integerBinaryTree1 = new BinaryTree<>();
@@ -401,6 +458,7 @@ public class BinaryTree<T extends Comparable> {
         integerBinaryTree1.print(PrintMode.In);
         integerBinaryTree1.print(PrintMode.Pos);
         integerBinaryTree1.print(PrintMode.Level);
+        integerBinaryTree1.printTree();
 
 
         System.out.println("arrInt2");
@@ -416,6 +474,7 @@ public class BinaryTree<T extends Comparable> {
         integerBinaryTree2.print(PrintMode.In);
         integerBinaryTree2.print(PrintMode.Pos);
         integerBinaryTree2.print(PrintMode.Level);
+        integerBinaryTree2.printTree();
 
         System.out.println("arrInt3");
         Integer[] arrInt3 = new Integer[]{5, 3, 0, 1, 4, 2, 8, 7, 9, 6};
@@ -430,5 +489,37 @@ public class BinaryTree<T extends Comparable> {
         integerBinaryTree3.print(PrintMode.In);
         integerBinaryTree3.print(PrintMode.Pos);
         integerBinaryTree3.print(PrintMode.Level);
+        integerBinaryTree3.printTree();
+
+        System.out.println("arrInt4");
+        Integer[] arrInt4 = new Integer[]{6, 3, 0, 1, 4, 5, 2, 9, 8, 10, 7};
+        BinaryTree<Integer> integerBinaryTree4 = new BinaryTree<>();
+        integerBinaryTree4.createTree(arrInt4);
+        integerBinaryTree4.print(PrintMode.Pre);
+        integerBinaryTree4.print(PrintMode.In);
+        integerBinaryTree4.print(PrintMode.Pos);
+        integerBinaryTree4.print(PrintMode.Level);
+        integerBinaryTree4.setMode(Mode.Iteration);
+        integerBinaryTree4.print(PrintMode.Pre);
+        integerBinaryTree4.print(PrintMode.In);
+        integerBinaryTree4.print(PrintMode.Pos);
+        integerBinaryTree4.print(PrintMode.Level);
+        integerBinaryTree4.printTree();
+
+        System.out.println("arrStr1");
+        String[] arrStr1 = new String[]{"f82js", "9dj2", "23", "dsawo", "2d9qjasss", "djso", "s9sj2", "dsss", "s02jd", "4s9sjk", "fosm2", "d2js", "38sje", "m2ks"};
+        BinaryTree<String> strBinaryTree1 = new BinaryTree<>();
+        strBinaryTree1.createTree(arrStr1);
+        strBinaryTree1.print(PrintMode.Pre);
+        strBinaryTree1.print(PrintMode.In);
+        strBinaryTree1.print(PrintMode.Pos);
+        strBinaryTree1.print(PrintMode.Level);
+        strBinaryTree1.setMode(Mode.Iteration);
+        strBinaryTree1.print(PrintMode.Pre);
+        strBinaryTree1.print(PrintMode.In);
+        strBinaryTree1.print(PrintMode.Pos);
+        strBinaryTree1.print(PrintMode.Level);
+        strBinaryTree1.printTree();
+
     }
 }

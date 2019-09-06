@@ -66,6 +66,10 @@ public class TreeNode<T extends Comparable> {
         return (left != null || right != null);
     }
 
+    public boolean isChild(TreeNode node) {
+        return (node != null && (node == left || node == right));
+    }
+
     public boolean hasLeft() {
         return left != null;
     }

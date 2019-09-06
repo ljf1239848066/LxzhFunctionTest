@@ -6,11 +6,11 @@ String[] getSigningProperties(boolean isDebug) {
         Properties props = new Properties()
         props.load(new FileInputStream(propFile))
         if (isDebug) {
-            def signP = new String[1];
+            def signP = new String[1]
             signP[0] = props['DEBUG_STORE_FILE']
             return signP
         } else {
-            def signP = new String[4];
+            def signP = new String[4]
             signP[0] = props['STORE_FILE']
             signP[1] = props['STORE_PASSWORD']
             signP[2] = props['KEY_ALIAS']
@@ -92,5 +92,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:${LIB_RXJAVA_VERSION}"
     implementation "io.reactivex.rxjava2:rxandroid:${LIB_RXANDROID_VERSION}"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':unsafe')
 }
