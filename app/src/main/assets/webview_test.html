@@ -1,8 +1,16 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>Test</head>
+<script>
+function onClick(){
+	var s= document.getElementById("input");
+	alert("test:" + s.value);
+}
+</script>
 <body>
 <div>Hello World</div>
-
+<input id="input" name="word" maxlength="100" type="text" autocomplete="off" />
+<button id="button1" class="m" hidefocus="true" type="submit" action="http://www.baidu.com/s" onclick="location.href='http://www.baidu.com/s?word='+input.value">百度</button>
+<button id="button2" class="m" hidefocus="true" type="submit" onclick="onClick()">提示</button>
 </body>
 </html>
