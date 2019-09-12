@@ -1,7 +1,10 @@
 package com.lxzh123.funcdemo.algo.tree;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.IntRange;
+//import android.support.annotation.IntDef;
+//import android.support.annotation.IntRange;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

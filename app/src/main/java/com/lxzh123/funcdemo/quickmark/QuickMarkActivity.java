@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.zxing.WriterException;
+import com.lxzh123.funcdemo.leakcanary.LeakTest;
 import com.lxzh123.funcdemo.R;
 
 import android.os.Bundle;

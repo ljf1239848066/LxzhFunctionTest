@@ -21,6 +21,8 @@
     <string name="title_activity_socket">SocketDemo</string>
     <string name="title_activity_unsafe">UseUnsafe</string>
     <string name="title_activity_rxjava">RxJavaDemo</string>
+    <string name="title_activity_leakcanray">LeakCanary</string>
+    <string name="title_activity_webview">WebView</string>
 
     <string name="title">Title</string>
     <string name="content">Content</string>

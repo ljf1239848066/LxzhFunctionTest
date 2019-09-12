@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lxzh123.funcdemo">
 
-    <uses-sdk
-        android:minSdkVersion="18"
-        android:targetSdkVersion="24" />
+    <uses-sdk android:targetSdkVersion="24" />
     <!-- 目标版本影响部分功能 15不允许在主线程连接网络 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -66,7 +64,7 @@
         </activity>
         <activity
             android:name=".record2.Record2Activity"
-            android:label="@string/title_activity_record2"/>
+            android:label="@string/title_activity_record2" />
         <activity
             android:name=".inputmethod.InputMethodActivity"
             android:label="@string/title_activity_inputmethod" />
@@ -126,6 +124,13 @@
         <activity
             android:name=".rxjavatest.TestRxJavaActivity"
             android:label="@string/title_activity_rxjava" />
+        <activity
+            android:name=".leakcanary.LeakTestActivity"
+            android:label="@string/title_activity_leakcanray" />
+        <activity
+            android:name=".webview.WebViewActivity"
+            android:label="@string/title_activity_webview" />
+
     </application>
 
 </manifest>

@@ -91,9 +91,11 @@ dependencies {
     implementation "org.greenrobot:eventbus:${LIB_EVENTBUS_VERSION}"
     implementation "io.reactivex.rxjava2:rxjava:${LIB_RXJAVA_VERSION}"
     implementation "io.reactivex.rxjava2:rxandroid:${LIB_RXANDROID_VERSION}"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
     implementation project(':unsafe')
 }
