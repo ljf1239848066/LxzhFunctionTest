@@ -23,6 +23,7 @@
     <string name="title_activity_rxjava">RxJavaDemo</string>
     <string name="title_activity_leakcanray">LeakCanary</string>
     <string name="title_activity_webview">WebView</string>
+    <string name="title_activity_jni">Jni</string>
 
     <string name="title">Title</string>
     <string name="content">Content</string>

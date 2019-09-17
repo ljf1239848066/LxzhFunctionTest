@@ -8,9 +8,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import leakcanary.AppWatcher;
-import leakcanary.LeakCanary;
-
 public class LxzhApplication extends Application {
     private static LxzhApplication instance;
 

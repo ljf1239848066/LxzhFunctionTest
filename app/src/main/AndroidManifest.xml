@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lxzh123.funcdemo">
 
-    <uses-sdk android:targetSdkVersion="24" />
     <!-- 目标版本影响部分功能 15不允许在主线程连接网络 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -130,7 +129,9 @@
         <activity
             android:name=".webview.WebViewActivity"
             android:label="@string/title_activity_webview" />
-
+        <activity
+            android:name=".jni.JniActivity"
+            android:label="@string/title_activity_jni"/>
     </application>
 
 </manifest>

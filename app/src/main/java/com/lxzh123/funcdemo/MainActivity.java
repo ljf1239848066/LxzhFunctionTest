@@ -12,9 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.lxzh123.funcdemo.util.Common;
+import com.lxzh123.funcdemo.util.TemplateTest;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import dalvik.system.DexClassLoader;
+import dalvik.system.PathClassLoader;
 
 public class MainActivity extends ListActivity {
 
@@ -52,6 +56,14 @@ public class MainActivity extends ListActivity {
         });
 
         Log.d(TAG, "Permission:" + Common.checkBasicConfiguration(this));
+
+        TemplateTest<Boolean> test = new TemplateTest<>(true);
+        test.isNull();
+        Boolean item = new Boolean("false");
+        Integer integer;
+        ClassLoader classLoader = getClassLoader();
+        DexClassLoader classLoader1;
+        PathClassLoader pathClassLoader;
     }
 
     private String[] getAllActivity() {
