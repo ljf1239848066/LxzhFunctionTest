@@ -44,7 +44,8 @@ android {
                 keyAlias signP[2]
                 keyPassword signP[3]
 
-                v2SigningEnabled false
+                v1SigningEnabled true
+                v2SigningEnabled true
             } catch (ex) {
                 ex.printStackTrace()
             }
