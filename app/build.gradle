@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 
 String[] getSigningProperties(boolean isDebug) {
-    File propFile = new File('signing.properties')
+    File propFile = new File(getRootDir().getAbsolutePath()+'/signing.properties')
+    println(propFile.getAbsolutePath())
     if (propFile.exists()) {
         Properties props = new Properties()
         props.load(new FileInputStream(propFile))
@@ -19,7 +20,6 @@ String[] getSigningProperties(boolean isDebug) {
         }
     }
 }
-
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -111,7 +111,6 @@ dependencies {
 build {
     doLast {
         def projectDir = getProjectDir().getAbsolutePath()
-
         println(getRootProject())
         println(getProject())
         println(getPath())
