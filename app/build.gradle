@@ -106,3 +106,20 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
     implementation project(':unsafe')
 }
+
+
+build {
+    doLast {
+        def projectDir = getProjectDir().getAbsolutePath()
+
+        println(getRootProject())
+        println(getProject())
+        println(getPath())
+        println(getParent())
+        println(getRootDir())
+        println(getBuildDir())
+        println(getName())
+        println(getDisplayName())
+        println(getProjectDir())
+    }
+}

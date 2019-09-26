@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.lxzh123.funcdemo.R;
 
 public class TestUnsafeActivity extends Activity {
+    private final static String TAG = "estUnsafe";
 
     private TextView tvUnsafeInfo;
 
@@ -17,7 +18,6 @@ public class TestUnsafeActivity extends Activity {
 
         tvUnsafeInfo=(TextView)findViewById(R.id.tvUnsafeInfo);
         tvUnsafeInfo.setText(TestUnsafe.Test());
-
-
+        TestUnsafe.printDexFile(getApplicationContext());
     }
 }
