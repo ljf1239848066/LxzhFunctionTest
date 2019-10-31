@@ -41,4 +41,8 @@
     <!-- Activity——socket -->
     <string name="msgsend">发送的消息</string>
     <string name="msgrecv">接收的消息</string>
+
+    <!-- Activity——RemoteRes-->
+    <string name="load_installed_apk_res">加载已安装APK资源</string>
+    <string name="load_uninstalled_apk_res">加载未安装APK资源</string>
 </resources>

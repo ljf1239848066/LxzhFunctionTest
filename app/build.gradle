@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 String[] getSigningProperties(boolean isDebug) {
-    File propFile = new File(getRootDir().getAbsolutePath()+'/signing.properties')
+    File propFile = new File(getRootDir().getAbsolutePath() + '/signing.properties')
     println(propFile.getAbsolutePath())
     if (propFile.exists()) {
         Properties props = new Properties()

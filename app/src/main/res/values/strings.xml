@@ -24,6 +24,7 @@
     <string name="title_activity_leakcanray">LeakCanary</string>
     <string name="title_activity_webview">WebView</string>
     <string name="title_activity_jni">Jni</string>
+    <string name="title_activity_remoteres">RemoteRes</string>
 
     <string name="title">Title</string>
     <string name="content">Content</string>
@@ -69,5 +70,9 @@
     <!-- Activity——socket -->
     <string name="msgsend">MSGSEND</string>
     <string name="msgrecv">MSGRECV</string>
+
+    <!-- Activity——RemoteRes-->
+    <string name="load_installed_apk_res">Load installed apk Resource</string>
+    <string name="load_uninstalled_apk_res">Load uninstalled apk Resource</string>
 
 </resources>
