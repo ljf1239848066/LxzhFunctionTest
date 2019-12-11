@@ -1,6 +1,7 @@
 #include "jnilib.h"
 
 #include <android/log.h>
+#include "thread.h"
 
 #define TAG "Native-Lib"
 #define LOGI(FORMAT,...) __android_log_print(ANDROID_LOG_INFO, TAG, FORMAT, ##__VA_ARGS__);
