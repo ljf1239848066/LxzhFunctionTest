@@ -539,4 +539,10 @@ public class Sorter {
             k=0;//将k置0，用于下一轮保存位排序结果
         }
     }*/
+
+    public static void ThreadSort(int[] array, boolean asc) {
+        ThreadSorter sorter = new ThreadSorter();
+        sorter.sort(array, asc);
+    }
+
 }
