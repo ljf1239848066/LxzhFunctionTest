@@ -94,7 +94,7 @@ dependencies {
     implementation files('libs/org.apache.http.legacy.jar')
     implementation "com.alibaba:fastjson:${LIB_FASTJSON_VERSION}"
     implementation "com.squareup.okhttp3:okhttp:${LIB_OKHTTP_VERSION}"
-    implementation "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
+//    implementation "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
     implementation "org.greenrobot:eventbus:${LIB_EVENTBUS_VERSION}"
     implementation "io.reactivex.rxjava2:rxjava:${LIB_RXJAVA_VERSION}"
     implementation "io.reactivex.rxjava2:rxandroid:${LIB_RXANDROID_VERSION}"

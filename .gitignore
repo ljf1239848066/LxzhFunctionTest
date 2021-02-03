@@ -9,3 +9,4 @@ captures
 .externalNativeBuild
 app/build/
 signing.properties
+.idea/libraries/
