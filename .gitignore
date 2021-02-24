@@ -10,3 +10,5 @@ captures
 app/build/
 signing.properties
 .idea/libraries/
+.project
+.idea/

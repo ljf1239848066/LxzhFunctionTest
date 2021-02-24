@@ -92,6 +92,7 @@ dependencies {
     implementation files('libs/zxing.jar')
     implementation files('libs/log4j-1.2.16.jar')
     implementation files('libs/org.apache.http.legacy.jar')
+    implementation files('libs/ant-1.9.9.jar')
     implementation "com.alibaba:fastjson:${LIB_FASTJSON_VERSION}"
     implementation "com.squareup.okhttp3:okhttp:${LIB_OKHTTP_VERSION}"
 //    implementation "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
